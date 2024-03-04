@@ -1,16 +1,89 @@
-# Fresh project
+# Using PocketBase, Deno, and Fresh to deploy a production ready app under an hour 🚀
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
+Landscape of web development is ever-changing. There is a new JavaScript framework seemingly every day! There are countless tutorials and guides on how to quickly deploy production-ready apps using popular frameworks and libraries.
 
-### Usage
+In recent years, Deno, a TypeScript-first JavaScript runtime, has gained a fair level of popularity and many frameworks and libraries have emerged around the technology. In this workshop, we will learn how to deploy a production-ready web application using:
 
-Make sure to install Deno: https://deno.land/manual/getting_started/installation
+- **⛺️ PocketBase:** Lightweight, single-executable backend with MySQL database.
+- **🦕 Deno:** Modern, TypeScript-first JavaScript runtime that focuses on developer experience and Web APIs.
+- **🍋 Fresh:** A Deno-based full-stack framework for building fast and scalable websites.
 
-Then start the project:
+We will build a simple note-taking app and deploy it to Deno Deploy, a serverless platform for JavaScript applications.
 
+## Outline
+
+- **👩‍🏫 Introduction:** A brief summary of the tech-stack and a general overview of the workshop.
+  - A presentation about the technologies.
+  - Outline of the workshop.
+  - Instructions on guidelines & useful resources.
+- **📦 Installation:** Installation of necessary tools and extensions.
+  - Installing necessary CLI applications, IDE extensions.
+  - Helping out to resolve any technical issues.
+- **👨‍💻 Implementation:** Main part of the workshop, implementing the app and resolving any technical issues.
+  - Intro to working with Fresh and PocketBase.
+  - Basics of PocketBase’s API rules & auth providers.
+  - Overview of Fresh’s server-side rendering and interactive islands.
+  - Resolving any technical issues.
+- **🚀 Deployment:** Deploying the app to production
+  - Releasing the app to Deno Deploy.
+  - Monitoring the release & resolving any technical issues.
+- **💬 Wrap-up:** Q&A and discussions.
+  - Post-release questions and discussions.
+
+## Prerequisites
+
+### Deno CLI
+
+Deno is a modern JavaScript/TypeScript runtime that is used to run the Fresh framework. You can install it using the following command:
+
+```sh
+curl -fsSL https://deno.land/install.sh | sh
 ```
+
+If you are using Windows, you can use the following command:
+
+```sh
+irm https://deno.land/install.ps1 | iex
+```
+
+### PocketBase
+
+PocketBase is a lightweight, single-executable backend with MySQL database. You can download the latest release from the [official website](https://pocketbase.io/docs/).
+
+Extract the archive, and move the binary into the root of the repository. For example:
+
+```sh
+mv ~/Downloads/pocketbase_0.20.7_darwin_arm64/pocketbase ./
+```
+
+## Getting Started
+
+Start the PocketBase server:
+
+```sh
+deno task db:start
+```
+
+Then, you can start the application server:
+
+```sh
 deno task start
 ```
 
-This will watch the project directory and restart as necessary.
+> Fore more scripts and commands, check the `tasks` section in the [`deno.json`](./deno.json) file.
+
+That's it, you're ready to rock! 🎸
+
+## Editor Recommendations
+
+Deno has a great ecosystem of extensions for popular editors. You can learn more about them in the [official documentation](https://docs.deno.com/runtime/manual/getting_started/setup_your_environment#using-an-editoride).
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Resources
+
+- [PocketBase](https://pocketbase.io/docs/)
+- [Deno](https://docs.deno.com/runtime/manual)
+- [Fresh](https://fresh.deno.dev/docs/getting-started)
