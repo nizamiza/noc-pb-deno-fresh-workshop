@@ -58,11 +58,23 @@ mv ~/Downloads/pocketbase_0.20.7_darwin_arm64/pocketbase ./
 
 ## Getting Started
 
+Create an `.env` file according to the `.env.example` at the root of the repository:
+
+```sh
+cp .env.example .env
+```
+
+Adjust the environment variables according to your setup.
+
+Then, install the dependencies:
+
+````sh
+
 Start the PocketBase server:
 
 ```sh
 deno task db:start
-```
+````
 
 Then, you can start the application server:
 
@@ -77,6 +89,12 @@ That's it, you're ready to rock! 🎸
 ## Editor Recommendations
 
 Deno has a great ecosystem of extensions for popular editors. You can learn more about them in the [official documentation](https://docs.deno.com/runtime/manual/getting_started/setup_your_environment#using-an-editoride).
+
+## Deployment
+
+You can deploy the app to Deno Deploy using the following command. Follow the instructions on [Fresh's official documentation](https://fresh.deno.dev/docs/getting-started/deploy-to-production) to learn more about the process.
+
+To host a PocketBase instance, you can use [PocketHost](https://pockethost.io) service. Once you create an instance, make sure to add its URL to [environmental variables on Deno Deploy](https://docs.deno.com/deploy/manual/environment-variables).
 
 ## License
 

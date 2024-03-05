@@ -1,3 +1,206 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  h1,
+  .h1 {
+    @apply text-4xl font-extrabold;
+  }
+
+  h2,
+  .h2 {
+    @apply text-3xl font-extrabold;
+  }
+
+  h3,
+  .h3 {
+    @apply text-2xl font-bold;
+  }
+
+  h4,
+  .h4 {
+    @apply text-xl font-bold;
+  }
+
+  h5,
+  .h5 {
+    @apply text-lg font-semibold;
+  }
+
+  h6,
+  .h6 {
+    @apply text-base font-semibold;
+  }
+
+  hr {
+    @apply border border-t border-solid w-full;
+    border-color: color-mix(in srgb, currentColor, transparent 85%);
+  }
+
+  ol {
+    @apply list-decimal list-inside;
+  }
+}
+
+@layer components {
+  .focus-accent {
+    outline: 2px solid var(--accent-color, var(--accent));
+    outline-offset: 2px;
+  }
+
+  .accent-focus:is(:focus-visible, :focus-within) {
+    @apply focus-accent;
+  }
+
+  .avatar {
+    @apply object-cover object-center aspect-square rounded-full;
+  }
+
+  .ellipsis {
+    @apply overflow-hidden whitespace-nowrap overflow-ellipsis;
+  }
+}
+
+:root {
+  --accent: #8939e6;
+  --success: #006229;
+  --error: #9a0505;
+  --info: #0a4ab8;
+  --surface: color-mix(in srgb, currentColor, transparent 95%);
+  --surface-hover: color-mix(in srgb, currentColor, transparent 85%);
+  --surface-passive: color-mix(in srgb, currentColor, transparent 90%);
+
+  color-scheme: light dark;
+  font-family: "Work Sans", sans-serif;
+  accent-color: var(--accent);
+
+  @media (prefers-color-scheme: dark) {
+    --accent: #b67ff5;
+    --success: #2fd374;
+    --error: #f98383;
+    --info: #91b9fd;
+    --surface: color-mix(in srgb, currentColor, transparent 92%);
+    --surface-hover: color-mix(in srgb, currentColor, transparent 82%);
+    --surface-passive: color-mix(in srgb, currentColor, transparent 80%);
+  }
+
+  button {
+    @apply py-[0.5em] px-[1.5em] rounded-md;
+    @apply accent-focus;
+
+    background-color: var(--surface);
+
+    &:hover:not(:disabled) {
+      @apply bg-[var(--surface-hover)];
+    }
+  }
+}
+
+body {
+  @apply flex flex-col min-h-screen;
+}
+
+a:has(button) {
+  @apply focus-visible:outline-none;
+
+  &:focus-visible > button {
+    @apply focus-accent;
+  }
+}
+
+input {
+  &[type="checkbox"] {
+    @apply w-[1.25em] h-[1.25em] cursor-pointer;
+  }
+
+  &[type="checkbox"]:not([class*="flex-shrink"]) {
+    @apply flex-shrink-0;
+  }
+
+  &:focus-visible {
+    @apply outline-[--accent];
+  }
+}
+
+main {
+  @apply flex flex-col gap-4 h-full flex-1 p-8;
+
+  grid-area: content;
+
+  &.auth {
+    @apply items-center text-center;
+
+    & > *:first-child {
+      @apply flex-grow-[1] inline-flex flex-col justify-end;
+    }
+
+    & > form {
+      @apply flex flex-col gap-4 max-w-sm w-full flex-grow-[2];
+
+      & > button[type="submit"] {
+        @apply mt-4 self-center;
+      }
+    }
+  }
+
+  &.status {
+    @apply items-center text-center max-w-lg mx-auto;
+
+    & > *:first-child {
+      @apply flex-grow-[1] inline-flex flex-col justify-end;
+    }
+
+    & > *:last-child {
+      @apply inline-flex flex-col flex-grow-[2] mt-4;
+    }
+  }
+}
+
+dialog:not(.status) {
+  --p: theme(spacing.4);
+
+  @apply top-auto right-0 bottom-0 left-0 m-0 max-w-full w-full min-h-[15rem];
+  @apply open:flex flex-col justify-between gap-4;
+  @apply rounded-tl-xl rounded-tr-xl;
+
+  &::backdrop {
+    --color: black;
+    --transparency: 80%;
+
+    color: var(--color);
+    background-color: color-mix(
+      in srgb,
+      currentColor,
+      transparent var(--transparency)
+    );
+  }
+
+  @media (prefers-color-scheme: dark) {
+    &::backdrop {
+      --color: white;
+      --transparency: 50%;
+    }
+  }
+
+  & > * {
+    @apply p-[var(--p)];
+  }
+
+  & > header {
+    @apply p-[var(--p)] sticky top-0;
+  }
+
+  & > footer {
+    @apply p-[var(--p)] sticky bottom-0;
+    @apply flex flex-wrap justify-end gap-4;
+  }
+
+  @media screen and (min-width: theme(screens.sm)) {
+    & {
+      @apply top-1/2 right-auto bottom-auto left-1/2 -translate-x-1/2 -translate-y-1/2;
+      @apply w-auto min-w-[15rem] min-h-[auto];
+      @apply rounded-bl-xl rounded-br-xl;
+    }
+  }
+}

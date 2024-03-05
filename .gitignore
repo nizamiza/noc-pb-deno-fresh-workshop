@@ -7,6 +7,10 @@
 
 # Fresh build directory
 _fresh/
+
 # npm dependencies
 node_modules/
+
+# PocketBase
 pocketbase
+pb_data
