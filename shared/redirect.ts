@@ -10,3 +10,7 @@ export function redirect(path: string, headers?: Headers | null, status = 303) {
     headers,
   });
 }
+
+export function redirectToHome(headers?: Headers | null) {
+  return redirect("/", headers);
+}

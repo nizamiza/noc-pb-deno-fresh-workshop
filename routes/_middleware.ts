@@ -1,16 +1,19 @@
-import Pocketbase from "pocketbase";
-import { env } from "$/env.ts";
-import { Context, TypedPocketBase } from "$/shared/types.ts";
+import { AuthRoute, createAppState } from "$/shared/auth.ts";
+import { redirect, redirectToHome } from "$/shared/redirect.ts";
+import { Context } from "$/shared/types.ts";
 
-export async function handler(_req: Request, ctx: Context) {
+export async function handler(req: Request, ctx: Context) {
   if (ctx.destination !== "route") {
     return ctx.next();
   }
 
-  if (!ctx.state.pb) {
-    ctx.state.pb = new Pocketbase(env("POCKET_BASE_URL")) as TypedPocketBase;
+  ctx.state = await createAppState(req.headers);
+
+  const isLogin = ctx.url.pathname === AuthRoute.Login;
+
+  if (!ctx.state.user) {
+    return isLogin ? ctx.next() : redirect(AuthRoute.Login);
   }
 
-  const res = await ctx.next();
-  return res;
+  return isLogin ? redirectToHome() : ctx.next();
 }

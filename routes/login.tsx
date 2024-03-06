@@ -1,9 +1,8 @@
-import { PageProps } from "$/shared/types.ts";
 import FormField from "$/islands/FormField.tsx";
 import StatusMessage from "$/islands/StatusMessage.tsx";
-import { Handlers } from "$/shared/types.ts";
-import { redirect } from "$/shared/redirect.ts";
-import { env } from "$/env.ts";
+import { createAuthCookieHeaders } from "$/shared/auth.ts";
+import { Handlers, PageProps } from "$/shared/types.ts";
+import { redirectToHome } from "$/shared/redirect.ts";
 
 type LoginResult = {
   errorMessage?: string;
@@ -28,13 +27,6 @@ export default function Login({ data }: PageProps<LoginResult>) {
 }
 
 export const handler: Handlers<LoginResult> = {
-  GET: (_req, ctx) => {
-    if (ctx.state.user) {
-      return redirect("/");
-    }
-
-    return ctx.render();
-  },
   POST: async (req, ctx) => {
     const formData = await req.formData();
 
@@ -48,19 +40,15 @@ export const handler: Handlers<LoginResult> = {
     }
 
     try {
-      const result = await ctx.state.pb.collection("users").authWithPassword(
-        identity,
-        password,
-      );
+      await ctx.state.pb.collection("users")
+        .authWithPassword(
+          identity,
+          password,
+        );
 
-      // const avatarUrl = new URL(
-      //   `api/files/users/${result.meta}/${r}`,
-      //   env("POCKET_BASE_URL")
-      // );
+      const headers = createAuthCookieHeaders(ctx);
 
-      console.dir(result, { depth: 4 });
-
-      return redirect("/");
+      return redirectToHome(headers);
     } catch (error) {
       console.log(error);
       return ctx.render({

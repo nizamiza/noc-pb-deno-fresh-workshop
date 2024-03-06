@@ -86,6 +86,16 @@ deno task start
 
 That's it, you're ready to rock! 🎸
 
+## Seeding
+
+You can seed the database with some initial data using the following command:
+
+```sh
+deno task db:seed
+```
+
+> Make sure to have the `POCKET_BASE_SEEDING_ADMIN_USER_` prefixed environmental variables setup in your `.env` file and start the PocketBase server before running the seed command.
+
 ## Editor Recommendations
 
 Deno has a great ecosystem of extensions for popular editors. You can learn more about them in the [official documentation](https://docs.deno.com/runtime/manual/getting_started/setup_your_environment#using-an-editoride).

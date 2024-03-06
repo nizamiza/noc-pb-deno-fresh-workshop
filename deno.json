@@ -29,7 +29,7 @@
     "tailwindcss": "npm:tailwindcss@3.4.1",
     "tailwindcss/": "npm:/tailwindcss@3.4.1/",
     "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
-    "$std/": "https://deno.land/std@0.211.0/",
+    "$std/": "https://deno.land/std@0.218.2/",
     "pocketbase": "npm:pocketbase",
     "zod": "https://deno.land/x/zod@v3.22.4/index.ts",
     "zodenv": "https://deno.land/x/zodenv@v2.0.1/mod.ts",
@@ -37,7 +37,8 @@
   },
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "preact"
+    "jsxImportSource": "preact",
+    "strict": true
   },
   "nodeModulesDir": true
 }

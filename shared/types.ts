@@ -13,7 +13,7 @@ import type {
 export * from "$/shared/pb.d.ts";
 
 export type User = AuthSystemFields & UsersResponse & {
-  avatarUrl?: string | null;
+  avatarUrl?: URL | null;
 };
 
 export type AppState = {

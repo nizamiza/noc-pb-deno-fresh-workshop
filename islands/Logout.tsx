@@ -28,9 +28,9 @@ export default function Logout({
           <form method="dialog">
             <button type="submit">Cancel</button>
           </form>
-          <a href="/logout">
-            <button tabIndex={-1}>Logout</button>
-          </a>
+          <form method="POST" action="/logout">
+            <button type="submit">Logout</button>
+          </form>
         </footer>
       </dialog>
     </>

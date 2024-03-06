@@ -43,7 +43,7 @@ async function seed() {
     () => seedUsers({ pb }),
   );
 
-  await seedWithPerformanceLogging("posts", () => seedNotes({ pb, users }));
+  await seedWithPerformanceLogging("notes", () => seedNotes({ pb, users }));
 
   pb.authStore.clear();
 }
@@ -55,7 +55,7 @@ async function clear() {
 
   const collections = {
     users: await pb.collection("users").getFullList(),
-    posts: await pb.collection("posts").getFullList(),
+    notes: await pb.collection("notes").getFullList(),
   };
 
   for (const [name, collection] of Object.entries(collections)) {

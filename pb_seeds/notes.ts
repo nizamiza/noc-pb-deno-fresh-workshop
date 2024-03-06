@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import type { NotesRecord, UsersResponse } from "$/shared/types.ts";
+import type { NotesResponse, UsersResponse } from "$/shared/types.ts";
 import { SeedFnParams } from "$/pb_seeds/types.ts";
 
 function randomBoolean(probability = 0.5) {
@@ -10,11 +10,13 @@ function randomBoolean(probability = 0.5) {
   );
 }
 
+type NoteWithUser = NotesResponse<{ user: UsersResponse }>;
+
 export async function seedNotes({
   pb,
   users,
 }: SeedFnParams<{ users: UsersResponse[] }>) {
-  const posts: NotesRecord[] = [];
+  const notes: NoteWithUser[] = [];
 
   for (const user of users) {
     const inputs = Array.from(
@@ -62,12 +64,48 @@ export async function seedNotes({
     );
 
     for (const data of inputs) {
-      await pb.collection("posts").create<NotesRecord>(data);
-      posts.push(data);
+      const result = await pb.collection("notes").create<NoteWithUser>(data, {
+        expand: "user",
+      });
+
+      notes.push(result);
     }
 
-    console.log(`🌱 Seeded ${inputs.length} notes for user ${user.id}`);
+    console.log(
+      `🌱 Seeded ${inputs.length} notes for user ${user.id} (${user.username})`,
+    );
   }
 
-  return posts;
+  console.log("🌱 Connecting notes...");
+
+  const notesByUser = Object.groupBy(notes, (note) => note.user || "");
+
+  for (const userNotes of Object.values(notesByUser)) {
+    if (!userNotes) {
+      continue;
+    }
+
+    const user = userNotes[0].expand?.user;
+
+    console.log(
+      `🔗 Connecting ${userNotes.length} notes for user ${user?.id} (${user?.username})...`,
+    );
+
+    for (const note of userNotes) {
+      const linkedNotes = faker.helpers.arrayElements(
+        faker.helpers.shuffle(userNotes),
+        { min: 0, max: 3 },
+      );
+
+      console.log(
+        `🔗 Linking note ${note.id} to ${linkedNotes.length} other notes...`,
+      );
+
+      await pb.collection("notes").update(note.id, {
+        links: linkedNotes.map((n) => n.id),
+      });
+    }
+  }
+
+  return notes;
 }
