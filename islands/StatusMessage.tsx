@@ -1,7 +1,7 @@
 import { Signal } from "@preact/signals";
 import { JSX } from "preact";
 import { useEffect, useRef } from "preact/hooks";
-import { oneLine } from "$/shared/utils.ts";
+import { cn } from "$/shared/utils.ts";
 
 export type StatusMessageProps = Omit<
   JSX.HTMLAttributes<HTMLDialogElement>,
@@ -35,7 +35,7 @@ export default function StatusMessage({
     <dialog
       ref={dialogRef}
       tabIndex={-1}
-      class={oneLine`
+      class={cn`
         status fixed top-auto right-4 bottom-4 left-auto ml-4
         translate-x-0 translate-y-0 m-0 z-[999] overflow-x-scroll
         backdrop-blur-xl

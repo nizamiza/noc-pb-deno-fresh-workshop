@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals";
 import { JSX } from "preact";
-import { oneLine } from "$/shared/utils.ts";
+import { cn } from "$/shared/utils.ts";
 
 type InputElement = {
   input: JSX.HTMLAttributes<HTMLInputElement>;
@@ -24,15 +24,9 @@ export default function FormField<T extends keyof InputElement>({
   const showPass = useSignal(false);
 
   return (
-    <fieldset
-      class={oneLine`
-        flex flex-col gap-2 min-w-[15rem] p-2 rounded-lg relative isolate
-        border-[1.5px] border-[--surface-passive] focus-within:border-[--accent]
-      `}
-    >
+    <fieldset>
       <legend
-        class={oneLine`
-          text-sm px-2 py-0.5 rounded-md w-fit
+        class={cn`
           ${props.required ? "after:content-['*'] after:text-[--error]" : ""}
         `}
       >
@@ -41,23 +35,19 @@ export default function FormField<T extends keyof InputElement>({
       {element === "input" ? (
         <input
           aria-label={label}
-          class={oneLine`
-            py-2 px-4 rounded-md bg-[--surface] accent-focus z-[1]
-          `}
+          class={cn`z-[1]`}
           {...(props as InputElement["input"])}
         />
       ) : (
         <textarea
           aria-label={label}
-          class={oneLine`
-            py-2 px-4 rounded-md bg-[--surface] accent-focus
-          `}
           rows={7}
           {...(props as InputElement["textarea"])}
         ></textarea>
       )}
       {props.type === "password" && (
         <button
+          aria-label={showPass.value ? "Hide password" : "Show password"}
           class="text-xs absolute top-3.5 right-4 z-[2]"
           type="button"
           onClick={() => {
@@ -71,7 +61,7 @@ export default function FormField<T extends keyof InputElement>({
             }
           }}
         >
-          {showPass.value ? "Hide" : "Show"}
+          {showPass.value ? "👀" : "👁️"}
         </button>
       )}
     </fieldset>

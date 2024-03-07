@@ -1,6 +1,7 @@
 import { RouteConfig } from "$fresh/server.ts";
-import { AuthRoute, createAuthCookieClearHeaders } from "$/shared/auth.ts";
+import { createAuthCookieClearHeaders } from "$/shared/auth.ts";
 import { redirect, redirectToHome } from "$/shared/redirect.ts";
+import { Route } from "$/shared/route.ts";
 import { Handlers } from "$/shared/types.ts";
 
 export const config: RouteConfig = {
@@ -10,6 +11,6 @@ export const config: RouteConfig = {
 export const handler: Handlers = {
   GET: () => redirectToHome(),
   POST: () => {
-    return redirect(AuthRoute.Login, createAuthCookieClearHeaders());
+    return redirect(Route.Login, createAuthCookieClearHeaders());
   },
 };

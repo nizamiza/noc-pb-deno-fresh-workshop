@@ -66,7 +66,15 @@
   }
 
   .container {
-    @apply flex flex-col gap-4 p-6;
+    @apply flex flex-col gap-4 p-6 2xl:p-10 max-w-6xl;
+  }
+
+  .note {
+    @apply text-sm text-[--text-passive];
+  }
+
+  .input {
+    @apply py-2 px-4 rounded-md bg-[--surface] accent-focus;
   }
 
   .card-array {
@@ -83,6 +91,11 @@
       @apply basis-[--basis] flex-grow;
     }
   }
+
+  .submit-group {
+    @apply flex flex-wrap items-center justify-end p-6 -mx-6 gap-4 sticky bottom-0;
+    @apply backdrop-blur-md bg-[--body-translucent];
+  }
 }
 
 :root {
@@ -92,6 +105,7 @@
   --info: #0a4ab8;
   --text: #2f2d28;
   --body: #fffef9;
+  --body-translucent: color-mix(in srgb, var(--body), transparent 15%);
   --text-passive: color-mix(in srgb, currentColor, transparent 30%);
   --surface: color-mix(in srgb, currentColor, transparent 95%);
   --surface-pale: color-mix(in srgb, currentColor, transparent 98%);
@@ -100,6 +114,8 @@
 
   --sidebar-width: 15rem;
   --main-content-basis: max(20rem, calc(100% - var(--sidebar-width)));
+
+  @apply 2xl:[--sidebar-width:20rem];
 
   color-scheme: light;
   font-family: "DM Sans", sans-serif;
@@ -130,13 +146,29 @@
     &:hover:not(:disabled) {
       @apply bg-[var(--surface-hover)];
     }
+
+    &:has(svg) {
+      @apply flex items-center justify-center gap-[0.625em];
+
+      & > svg {
+        @apply w-[1.25em] h-[1.25em];
+      }
+    }
+  }
+}
+
+form:not([method="dialog"]) {
+  @apply flex flex-col gap-2;
+
+  & > footer {
+    @apply submit-group;
   }
 }
 
 body {
   @apply flex flex-col min-h-screen;
 
-  @media (max-width: 35rem) {
+  @media (max-width: theme(screens.md)) {
     &:has(#sidebar[data-toggled="true"]) {
       @apply overflow-hidden;
     }
@@ -152,6 +184,8 @@ a:has(button) {
 }
 
 input {
+  @apply input;
+
   &[type="checkbox"] {
     @apply w-[1.25em] h-[1.25em] cursor-pointer;
   }
@@ -162,6 +196,39 @@ input {
 
   &:focus-visible {
     @apply outline-[--accent];
+  }
+}
+
+textarea {
+  @apply input;
+}
+
+select {
+  @apply input;
+
+  &[multiple] {
+    @apply h-[auto];
+
+    & > option {
+      @apply bg-[--surface] p-2 rounded-md max-w-[20ch] ellipsis;
+
+      & + & {
+        @apply mt-3;
+      }
+
+      &:checked {
+        @apply text-[--accent];
+      }
+    }
+  }
+}
+
+fieldset {
+  @apply flex flex-col gap-2 min-w-[15rem] p-2 rounded-lg relative isolate;
+  @apply border-[1.5px] border-[--surface-passive];
+
+  & > legend {
+    @apply text-sm px-2 py-0.5 rounded-md w-fit;
   }
 }
 
@@ -203,7 +270,7 @@ dialog:not(.status) {
   --p: theme(spacing.4);
 
   @apply top-auto right-0 bottom-0 left-0 m-0 max-w-full w-full min-h-[15rem];
-  @apply open:flex flex-col justify-between gap-4;
+  @apply open:flex target:flex flex-col justify-between gap-4;
   @apply bg-[--body] rounded-tl-xl rounded-tr-xl;
 
   &::backdrop {
@@ -220,7 +287,6 @@ dialog:not(.status) {
 
   @media (prefers-color-scheme: dark) {
     &::backdrop {
-      --color: white;
       --transparency: 50%;
     }
   }

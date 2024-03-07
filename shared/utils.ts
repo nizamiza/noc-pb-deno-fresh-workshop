@@ -1,4 +1,10 @@
-export function oneLine<T extends unknown>(
+import { twMerge } from "tailwind-merge";
+
+/**
+ * A template literal tag function that filters out undefined values and merges
+ * the resulting string using `twMerge` function.
+ */
+export function cn<T extends unknown>(
   strings: TemplateStringsArray,
   ...values: T[]
 ): string {
@@ -8,5 +14,5 @@ export function oneLine<T extends unknown>(
     ""
   );
 
-  return str.replace(/\n\s*/g, " ").trim();
+  return twMerge(str.replace(/\n\s*/g, " ").trim());
 }

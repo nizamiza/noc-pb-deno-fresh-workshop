@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import type {
   FreshContext,
   Handler as _Handler,
@@ -26,4 +27,4 @@ export type Handler<T = any> = _Handler<T, AppState>;
 export type Handlers<T = any> = _Handlers<T, AppState>;
 export type PageProps<T = any> = _PageProps<T, AppState>;
 
-export type Context = FreshContext<AppState>;
+export type Context<T = any> = FreshContext<AppState, T>;

@@ -1,4 +1,4 @@
-import { oneLine } from "$/shared/utils.ts";
+import { cn } from "$/shared/utils.ts";
 import { User } from "$/shared/types.ts";
 
 export type UserCardProps = {
@@ -9,7 +9,7 @@ export type UserCardProps = {
 export default function UserCard({ class: className, data }: UserCardProps) {
   return (
     <figure
-      class={oneLine`
+      class={cn`
         flex items-center text-left gap-2 p-2 relative
         bg-[--surface] rounded-xl
         ${className}

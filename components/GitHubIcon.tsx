@@ -3,6 +3,7 @@ import { JSX } from "preact";
 export function GitHubIcon(props: JSX.SVGAttributes<SVGSVGElement>) {
   return (
     <svg
+      aria-label="GitHub"
       width="24"
       height="24"
       viewBox="0 0 24 24"

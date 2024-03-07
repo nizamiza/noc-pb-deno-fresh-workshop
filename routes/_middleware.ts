@@ -1,6 +1,7 @@
-import { AuthRoute, createAppState } from "$/shared/auth.ts";
+import { createAppState } from "$/shared/auth.ts";
 import { redirect, redirectToHome } from "$/shared/redirect.ts";
 import { Context } from "$/shared/types.ts";
+import { Route } from "$/shared/route.ts";
 
 export async function handler(req: Request, ctx: Context) {
   if (ctx.destination !== "route") {
@@ -9,10 +10,10 @@ export async function handler(req: Request, ctx: Context) {
 
   ctx.state = await createAppState(req.headers);
 
-  const isLogin = ctx.url.pathname === AuthRoute.Login;
+  const isLogin = ctx.url.pathname === Route.Login;
 
   if (!ctx.state.user) {
-    return isLogin ? ctx.next() : redirect(AuthRoute.Login);
+    return isLogin ? ctx.next() : redirect(Route.Login);
   }
 
   return isLogin ? redirectToHome() : ctx.next();

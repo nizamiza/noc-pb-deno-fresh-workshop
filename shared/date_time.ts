@@ -1,13 +1,21 @@
-export const dateTimeFormatter = Intl.DateTimeFormat("de", {
-  day: "2-digit",
-  month: "2-digit",
-  year: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  hour12: false,
-});
+export function formatDateTime(
+  date?: string | number | Date | null,
+  options?: Intl.DateTimeFormatOptions | "no-time"
+) {
+  const currentYear = new Date().getFullYear();
+  const parsedDate = new Date(date ?? Date.now());
 
-export function formatDateTime(date?: string | number | Date | null) {
-  return dateTimeFormatter.format(new Date(date ?? Date.now()));
+  return Intl.DateTimeFormat("en", {
+    day: "numeric",
+    month: "short",
+    ...(parsedDate.getFullYear() !== currentYear ? { year: "numeric" } : {}),
+    ...(options !== "no-time"
+      ? {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+          ...options,
+        }
+      : {}),
+  }).format(parsedDate);
 }

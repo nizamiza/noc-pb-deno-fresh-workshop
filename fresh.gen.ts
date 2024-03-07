@@ -7,17 +7,19 @@ import * as $_500 from "./routes/_500.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $_layout from "./routes/_layout.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
+import * as $api_notes_id_delete from "./routes/api/notes/[id]/delete.ts";
+import * as $api_notes_id_unlink from "./routes/api/notes/[id]/unlink.ts";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $logout from "./routes/logout.tsx";
-import * as $notes from "./routes/notes.tsx";
+import * as $notes_id_edit from "./routes/notes/[id]/edit.tsx";
+import * as $notes_id_index from "./routes/notes/[id]/index.tsx";
+import * as $notes_index from "./routes/notes/index.tsx";
+import * as $ConfirmDialog from "./islands/ConfirmDialog.tsx";
 import * as $FormField from "./islands/FormField.tsx";
 import * as $Logout from "./islands/Logout.tsx";
-import * as $MainContent from "./islands/MainContent.tsx";
-import * as $NoteCard from "./islands/NoteCard.tsx";
 import * as $Sidebar from "./islands/Sidebar.tsx";
 import * as $StatusMessage from "./islands/StatusMessage.tsx";
-import * as $UserCard from "./islands/UserCard.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -27,19 +29,21 @@ const manifest = {
     "./routes/_app.tsx": $_app,
     "./routes/_layout.tsx": $_layout,
     "./routes/_middleware.ts": $_middleware,
+    "./routes/api/notes/[id]/delete.ts": $api_notes_id_delete,
+    "./routes/api/notes/[id]/unlink.ts": $api_notes_id_unlink,
     "./routes/index.tsx": $index,
     "./routes/login.tsx": $login,
     "./routes/logout.tsx": $logout,
-    "./routes/notes.tsx": $notes,
+    "./routes/notes/[id]/edit.tsx": $notes_id_edit,
+    "./routes/notes/[id]/index.tsx": $notes_id_index,
+    "./routes/notes/index.tsx": $notes_index,
   },
   islands: {
+    "./islands/ConfirmDialog.tsx": $ConfirmDialog,
     "./islands/FormField.tsx": $FormField,
     "./islands/Logout.tsx": $Logout,
-    "./islands/MainContent.tsx": $MainContent,
-    "./islands/NoteCard.tsx": $NoteCard,
     "./islands/Sidebar.tsx": $Sidebar,
     "./islands/StatusMessage.tsx": $StatusMessage,
-    "./islands/UserCard.tsx": $UserCard,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

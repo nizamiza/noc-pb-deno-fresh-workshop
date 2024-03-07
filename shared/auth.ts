@@ -9,10 +9,6 @@ export enum AuthCookie {
   SameSite = "Strict",
 }
 
-export enum AuthRoute {
-  Login = "/login",
-}
-
 export async function createAppState(headers: Headers): Promise<AppState> {
   const pb = new Pocketbase(env("POCKET_BASE_URL")) as TypedPocketBase;
 

@@ -1,5 +1,5 @@
 import { JSX } from "preact/jsx-runtime";
-import { oneLine } from "$/shared/utils.ts";
+import { cn } from "$/shared/utils.ts";
 
 export default function MainContent({
   children,
@@ -8,7 +8,7 @@ export default function MainContent({
 }: JSX.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      class={oneLine`basis-[--main-content-basis] flex-grow ${className}`}
+      class={cn`basis-[--main-content-basis] flex-grow flex flex-col items-center ${className}`}
       {...props}
     >
       {children}
