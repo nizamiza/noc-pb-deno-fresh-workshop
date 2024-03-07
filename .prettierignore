@@ -1,4 +1,5 @@
 # PocketBase
 pb_*
+!pb_seeds
 !pb_migrations
 shared/pb.d.ts

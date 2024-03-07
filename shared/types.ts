@@ -12,9 +12,10 @@ import type {
 
 export * from "$/shared/pb.d.ts";
 
-export type User = AuthSystemFields & UsersResponse & {
-  avatarUrl?: URL | null;
-};
+export type User = AuthSystemFields &
+  UsersResponse & {
+    avatarUrl?: URL | null;
+  };
 
 export type AppState = {
   pb: TypedPocketBase;

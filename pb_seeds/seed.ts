@@ -9,7 +9,7 @@ async function createPbInstance() {
 
   await pb.admins.authWithPassword(
     env("POCKET_BASE_SEEDING_ADMIN_USER_EMAIL"),
-    env("POCKET_BASE_SEEDING_ADMIN_USER_PASSWORD"),
+    env("POCKET_BASE_SEEDING_ADMIN_USER_PASSWORD")
   );
 
   return pb;
@@ -17,7 +17,7 @@ async function createPbInstance() {
 
 async function seedWithPerformanceLogging<T>(
   name: string,
-  fn: () => Promise<T>,
+  fn: () => Promise<T>
 ) {
   console.log(`🌱 Seeding ${name}...`);
 
@@ -38,9 +38,8 @@ async function seed() {
 
   const pb = await createPbInstance();
 
-  const users = await seedWithPerformanceLogging(
-    "users",
-    () => seedUsers({ pb }),
+  const users = await seedWithPerformanceLogging("users", () =>
+    seedUsers({ pb })
   );
 
   await seedWithPerformanceLogging("notes", () => seedNotes({ pb, users }));

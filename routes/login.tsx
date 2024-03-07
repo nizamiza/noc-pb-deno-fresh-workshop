@@ -1,8 +1,13 @@
+import { RouteConfig } from "$fresh/server.ts";
 import FormField from "$/islands/FormField.tsx";
 import StatusMessage from "$/islands/StatusMessage.tsx";
 import { createAuthCookieHeaders } from "$/shared/auth.ts";
 import { Handlers, PageProps } from "$/shared/types.ts";
 import { redirectToHome } from "$/shared/redirect.ts";
+
+export const config: RouteConfig = {
+  skipInheritedLayouts: true,
+};
 
 type LoginResult = {
   errorMessage?: string;
@@ -40,11 +45,9 @@ export const handler: Handlers<LoginResult> = {
     }
 
     try {
-      await ctx.state.pb.collection("users")
-        .authWithPassword(
-          identity,
-          password,
-        );
+      await ctx.state.pb
+        .collection("users")
+        .authWithPassword(identity, password);
 
       const headers = createAuthCookieHeaders(ctx);
 

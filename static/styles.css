@@ -60,6 +60,29 @@
   .ellipsis {
     @apply overflow-hidden whitespace-nowrap overflow-ellipsis;
   }
+
+  .giga-emoji {
+    @apply text-6xl;
+  }
+
+  .container {
+    @apply flex flex-col gap-4 p-6;
+  }
+
+  .card-array {
+    --cols: 3;
+    --gap: theme(spacing.4);
+    --ideal-width: calc(100% / var(--cols) - var(--gap));
+    --min-width: min(var(--ideal-width), 30ch);
+    --max-width: 100%;
+    --basis: clamp(var(--min-width), var(--ideal-width), var(--max-width));
+
+    @apply flex flex-wrap gap-[--gap];
+
+    & > * {
+      @apply basis-[--basis] flex-grow;
+    }
+  }
 }
 
 :root {
@@ -67,12 +90,21 @@
   --success: #006229;
   --error: #9a0505;
   --info: #0a4ab8;
+  --text: #2f2d28;
+  --body: #fffef9;
+  --text-passive: color-mix(in srgb, currentColor, transparent 30%);
   --surface: color-mix(in srgb, currentColor, transparent 95%);
+  --surface-pale: color-mix(in srgb, currentColor, transparent 98%);
   --surface-hover: color-mix(in srgb, currentColor, transparent 85%);
   --surface-passive: color-mix(in srgb, currentColor, transparent 90%);
 
-  color-scheme: light dark;
-  font-family: "Work Sans", sans-serif;
+  --sidebar-width: 15rem;
+  --main-content-basis: max(20rem, calc(100% - var(--sidebar-width)));
+
+  color-scheme: light;
+  font-family: "DM Sans", sans-serif;
+  color: var(--text);
+  background-color: var(--body);
   accent-color: var(--accent);
 
   @media (prefers-color-scheme: dark) {
@@ -80,9 +112,13 @@
     --success: #2fd374;
     --error: #f98383;
     --info: #91b9fd;
+    --text: #f8f8ef;
+    --body: #2d2825;
     --surface: color-mix(in srgb, currentColor, transparent 92%);
     --surface-hover: color-mix(in srgb, currentColor, transparent 82%);
     --surface-passive: color-mix(in srgb, currentColor, transparent 80%);
+
+    color-scheme: dark;
   }
 
   button {
@@ -99,6 +135,12 @@
 
 body {
   @apply flex flex-col min-h-screen;
+
+  @media (max-width: 35rem) {
+    &:has(#sidebar[data-toggled="true"]) {
+      @apply overflow-hidden;
+    }
+  }
 }
 
 a:has(button) {
@@ -162,7 +204,7 @@ dialog:not(.status) {
 
   @apply top-auto right-0 bottom-0 left-0 m-0 max-w-full w-full min-h-[15rem];
   @apply open:flex flex-col justify-between gap-4;
-  @apply rounded-tl-xl rounded-tr-xl;
+  @apply bg-[--body] rounded-tl-xl rounded-tr-xl;
 
   &::backdrop {
     --color: black;

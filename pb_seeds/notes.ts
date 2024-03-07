@@ -6,7 +6,7 @@ function randomBoolean(probability = 0.5) {
   return Boolean(
     faker.helpers.maybe(() => true, {
       probability,
-    }),
+    })
   );
 }
 
@@ -60,7 +60,7 @@ export async function seedNotes({
             return `<p>${formattedWords.join(" ")}</p>`;
           })
           .join("\n"),
-      }),
+      })
     );
 
     for (const data of inputs) {
@@ -72,7 +72,7 @@ export async function seedNotes({
     }
 
     console.log(
-      `🌱 Seeded ${inputs.length} notes for user ${user.id} (${user.username})`,
+      `🌱 Seeded ${inputs.length} notes for user ${user.id} (${user.username})`
     );
   }
 
@@ -88,17 +88,17 @@ export async function seedNotes({
     const user = userNotes[0].expand?.user;
 
     console.log(
-      `🔗 Connecting ${userNotes.length} notes for user ${user?.id} (${user?.username})...`,
+      `🔗 Connecting ${userNotes.length} notes for user ${user?.id} (${user?.username})...`
     );
 
     for (const note of userNotes) {
       const linkedNotes = faker.helpers.arrayElements(
         faker.helpers.shuffle(userNotes),
-        { min: 0, max: 3 },
+        { min: 0, max: 3 }
       );
 
       console.log(
-        `🔗 Linking note ${note.id} to ${linkedNotes.length} other notes...`,
+        `🔗 Linking note ${note.id} to ${linkedNotes.length} other notes...`
       );
 
       await pb.collection("notes").update(note.id, {

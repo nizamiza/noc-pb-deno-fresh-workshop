@@ -3,15 +3,13 @@ import { JSX } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import { oneLine } from "$/shared/utils.ts";
 
-export type StatusMessageProps =
-  & Omit<
-    JSX.HTMLAttributes<HTMLDialogElement>,
-    "open"
-  >
-  & {
-    open?: boolean | Signal<boolean>;
-    type: "success" | "error" | "info";
-  };
+export type StatusMessageProps = Omit<
+  JSX.HTMLAttributes<HTMLDialogElement>,
+  "open"
+> & {
+  open?: boolean | Signal<boolean>;
+  type: "success" | "error" | "info";
+};
 
 export default function StatusMessage({
   type,
@@ -23,8 +21,8 @@ export default function StatusMessage({
 
   useEffect(() => {
     const isBooleanOpen = typeof open === "boolean" && open;
-    const isSignalOpen = !isBooleanOpen && open && "value" in open &&
-      open.value;
+    const isSignalOpen =
+      !isBooleanOpen && open && "value" in open && open.value;
 
     if (isBooleanOpen || isSignalOpen) {
       dialogRef.current?.show();
@@ -44,19 +42,19 @@ export default function StatusMessage({
         open:flex flex-row gap-4 items-center px-4 py-3
         rounded-lg bg-[--surface-passive]
         ${
-        type === "success"
-          ? "text-[--success]"
-          : type === "error"
-          ? "text-[--error]"
-          : "text-[--info]"
-      }
+          type === "success"
+            ? "text-[--success]"
+            : type === "error"
+            ? "text-[--error]"
+            : "text-[--info]"
+        }
         ${
-        type === "success"
-          ? "[--accent-color:--success]"
-          : type === "error"
-          ? "[--accent-color:--error]"
-          : "[--accent-color:--info]"
-      }
+          type === "success"
+            ? "[--accent-color:--success]"
+            : type === "error"
+            ? "[--accent-color:--error]"
+            : "[--accent-color:--info]"
+        }
       `}
       {...props}
     >

@@ -19,14 +19,18 @@ async function getGitUser() {
     const { stdout: gitUserName } = await gitUserNameCmd.spawn().output();
     const { stdout: gitUserEmail } = await gitUserEmailCmd.spawn().output();
 
-    const name = new TextDecoder().decode(gitUserName).replaceAll("\n", "")
+    const name = new TextDecoder()
+      .decode(gitUserName)
+      .replaceAll("\n", "")
       .trim();
 
-    const email = new TextDecoder().decode(gitUserEmail).replaceAll("\n", "")
+    const email = new TextDecoder()
+      .decode(gitUserEmail)
+      .replaceAll("\n", "")
       .trim();
 
-    const username = email.split("@")[0] ||
-      name.replace(/\s/g, "_").toLowerCase();
+    const username =
+      email.split("@")[0] || name.replace(/\s/g, "_").toLowerCase();
 
     return {
       username,
@@ -35,7 +39,7 @@ async function getGitUser() {
     };
   } catch {
     console.warn(
-      "Could not get git user. Using default user for seeding instead.",
+      "Could not get git user. Using default user for seeding instead."
     );
 
     return {
@@ -46,15 +50,14 @@ async function getGitUser() {
   }
 }
 
-type UserCreateInput =
-  & Omit<Partial<User>, "username">
-  & Required<Pick<User, "username">>;
+type UserCreateInput = Omit<Partial<User>, "username"> &
+  Required<Pick<User, "username">>;
 
 async function createUserFormData(input: UserCreateInput) {
   const avatarIndex = faker.number.int({ min: 0, max: 9 });
   const avatarUrl = new URL(
     `seed_assets/avatars/avatar${avatarIndex}.svg`,
-    import.meta.url,
+    import.meta.url
   );
 
   const avatar = await Deno.readFile(avatarUrl);
@@ -64,7 +67,7 @@ async function createUserFormData(input: UserCreateInput) {
   formData.append(
     "avatar",
     new Blob([avatar], { type: "image/svg+xml" }),
-    "avatar.svg",
+    "avatar.svg"
   );
 
   const data = {
@@ -101,7 +104,7 @@ export async function seedUsers(params: SeedFnParams) {
   const gitUser = await getGitUser();
 
   const uniqueUsernames = new Set<string>(
-    Array.from({ length: 20 }, () => faker.internet.userName()),
+    Array.from({ length: 20 }, () => faker.internet.userName())
   );
 
   const createdGitUser = await createUser(gitUser, params);

@@ -1,8 +1,7 @@
 import Pocketbase from "pocketbase";
-import { AppState, Context, TypedPocketBase } from "$/shared/types.ts";
-import { env } from "$/env.ts";
-import { User } from "$/shared/types.ts";
 import { setCookie } from "$std/http/cookie.ts";
+import { env } from "$/env.ts";
+import { AppState, Context, TypedPocketBase, User } from "$/shared/types.ts";
 
 export enum AuthCookie {
   Name = "auth",
@@ -14,42 +13,32 @@ export enum AuthRoute {
   Login = "/login",
 }
 
-export async function createAppState(
-  headers: Headers,
-): Promise<AppState> {
+export async function createAppState(headers: Headers): Promise<AppState> {
   const pb = new Pocketbase(env("POCKET_BASE_URL")) as TypedPocketBase;
 
-  const cookie = headers.get("cookie");
+  let user: User | undefined;
 
-  validateAuth: {
-    pb.authStore.loadFromCookie(cookie ?? "", AuthCookie.Name);
+  getUser: {
+    pb.authStore.loadFromCookie(headers.get("cookie") ?? "", AuthCookie.Name);
 
     if (!pb.authStore.isValid) {
-      break validateAuth;
+      break getUser;
     }
 
     try {
       const { record } = await pb.collection("users").authRefresh();
 
-      const user = {
-        ...(record as User),
-        avatarUrl: new URL(
-          `/api/files/users/${record.id}/${record.avatar}`,
-          env("POCKET_BASE_URL"),
-        ),
-      };
-
-      return {
-        pb,
-        user,
-      };
+      user = record as User;
+      user.avatarUrl = new URL(
+        `/api/files/users/${user.id}/${user.avatar}`,
+        env("POCKET_BASE_URL")
+      );
     } catch (error) {
       console.error(error);
-      break validateAuth;
     }
   }
 
-  return { pb };
+  return { pb, user };
 }
 
 export function createAuthCookieHeaders(ctx: Context) {
@@ -58,11 +47,14 @@ export function createAuthCookieHeaders(ctx: Context) {
   const { pb } = ctx.state;
   const { hostname } = ctx.url;
 
-  const authCookie = pb.authStore.exportToCookie({
-    maxAge: Number(AuthCookie.MaxAge),
-    sameSite: String(AuthCookie.SameSite),
-    secure: !hostname.startsWith("localhost"), // Safari...
-  }, AuthCookie.Name);
+  const authCookie = pb.authStore.exportToCookie(
+    {
+      maxAge: Number(AuthCookie.MaxAge),
+      sameSite: String(AuthCookie.SameSite),
+      secure: !hostname.startsWith("localhost"), // Safari...
+    },
+    AuthCookie.Name
+  );
 
   headers.set("set-cookie", authCookie);
   return headers;
