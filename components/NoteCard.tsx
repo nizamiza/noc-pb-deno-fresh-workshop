@@ -2,12 +2,22 @@ import { NotesResponse } from "$/shared/types.ts";
 import MetaInfo from "$/components/MetaInfo.tsx";
 import { getNoteDetailRoute } from "$/shared/route.ts";
 
-export type NotesProps = {
-  data: NotesResponse;
+export type NotesProps<Expand> = {
+  data: NotesResponse<Expand>;
 };
 
-export default function NoteCard({ data }: NotesProps) {
+export default function NoteCard<Expand = unknown>({
+  data,
+}: NotesProps<Expand>) {
   const previewBody = data.body.replace(/<[^>]+>/g, "").slice(0, 200);
+
+  const linkCount =
+    data.expand &&
+    typeof data.expand === "object" &&
+    "links" in data.expand &&
+    Array.isArray(data.expand.links)
+      ? data.expand.links.length
+      : 0;
 
   return (
     <a
@@ -16,7 +26,14 @@ export default function NoteCard({ data }: NotesProps) {
     >
       <article class="flex flex-col gap-4 p-4">
         <h2 class="line-clamp-2">{data.title}</h2>
-        <p class="line-clamp-3 h-[3lh]">{previewBody}</p>
+        <p class="line-clamp-3 flex-grow">
+          {previewBody ? (
+            previewBody
+          ) : (
+            <span class="note">You haven't written anything here yet...</span>
+          )}
+        </p>
+        {linkCount > 0 && <p class="note mt-auto self-end">🔗 {linkCount}</p>}
         <MetaInfo data={data} />
       </article>
     </a>

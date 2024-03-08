@@ -9,6 +9,7 @@ export enum Route {
 }
 
 export enum ApiRoute {
+  NoteCreate = "/api/notes/create",
   NoteDelete = "/api/notes/:id/delete",
   NoteUnlink = "/api/notes/:id/unlink",
 }

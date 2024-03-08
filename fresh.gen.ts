@@ -9,6 +9,7 @@ import * as $_layout from "./routes/_layout.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
 import * as $api_notes_id_delete from "./routes/api/notes/[id]/delete.ts";
 import * as $api_notes_id_unlink from "./routes/api/notes/[id]/unlink.ts";
+import * as $api_notes_create from "./routes/api/notes/create.ts";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $logout from "./routes/logout.tsx";
@@ -16,8 +17,10 @@ import * as $notes_id_edit from "./routes/notes/[id]/edit.tsx";
 import * as $notes_id_index from "./routes/notes/[id]/index.tsx";
 import * as $notes_index from "./routes/notes/index.tsx";
 import * as $ConfirmDialog from "./islands/ConfirmDialog.tsx";
+import * as $Form from "./islands/Form.tsx";
 import * as $FormField from "./islands/FormField.tsx";
 import * as $Logout from "./islands/Logout.tsx";
+import * as $RichTextField from "./islands/RichTextField.tsx";
 import * as $Sidebar from "./islands/Sidebar.tsx";
 import * as $StatusMessage from "./islands/StatusMessage.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -31,6 +34,7 @@ const manifest = {
     "./routes/_middleware.ts": $_middleware,
     "./routes/api/notes/[id]/delete.ts": $api_notes_id_delete,
     "./routes/api/notes/[id]/unlink.ts": $api_notes_id_unlink,
+    "./routes/api/notes/create.ts": $api_notes_create,
     "./routes/index.tsx": $index,
     "./routes/login.tsx": $login,
     "./routes/logout.tsx": $logout,
@@ -40,8 +44,10 @@ const manifest = {
   },
   islands: {
     "./islands/ConfirmDialog.tsx": $ConfirmDialog,
+    "./islands/Form.tsx": $Form,
     "./islands/FormField.tsx": $FormField,
     "./islands/Logout.tsx": $Logout,
+    "./islands/RichTextField.tsx": $RichTextField,
     "./islands/Sidebar.tsx": $Sidebar,
     "./islands/StatusMessage.tsx": $StatusMessage,
   },

@@ -48,8 +48,8 @@ export default function Sidebar({ state }: SidebarProps) {
       data-toggled={expanded}
       class={cn`
           [--bg-color:var(--body-translucent)]
-          [--padding:theme(spacing.4)] 2xl:[--padding:theme(spacing.6)]
-          [--height:calc(1.4lh+var(--padding)*2)]
+          [--padding:var(--sidebar-padding)]
+          [--height:var(--sidebar-offset)]
 
           data-[toggled="true"]:[--height:100vh]
           data-[toggled="true"]:[--bg-color:var(--body)]
@@ -60,11 +60,13 @@ export default function Sidebar({ state }: SidebarProps) {
           md:[--bg-color:var(--surface-pale)]
           md:data-[toggled="true"]:[--bg-color:var(--surface-pale)]
 
+          md:basis-[--sidebar-width]
+
           bg-[--bg-color]
           p-[--padding]
           h-[--height]
           
-          flex flex-col gap-6 sm:basis-[--sidebar-width] flex-grow 
+          flex flex-col gap-6 flex-grow 
           max-h-screen sticky top-0 z-[999]
           overflow-hidden backdrop-blur-md transition-all
         `}
@@ -78,7 +80,7 @@ export default function Sidebar({ state }: SidebarProps) {
           aria-expanded="false"
           onClick={toggleSidebar}
         >
-          🍔
+          {expanded.value ? "❎" : "🍔"}
         </button>
       </div>
       <nav>

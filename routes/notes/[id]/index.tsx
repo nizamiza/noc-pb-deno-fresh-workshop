@@ -15,7 +15,7 @@ export default function NoteDetail({ data }: PageProps<NoteDetailProps>) {
   const { note } = data;
 
   return (
-    <section class="container">
+    <section class="container article">
       <BackLink href={getRoute(Route.Notes)} />
       <MetaInfo
         class="text-base"

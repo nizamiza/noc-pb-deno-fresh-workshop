@@ -1,6 +1,8 @@
 import BackLink from "$/components/BackLink.tsx";
 import NoteLinksSelectField from "$/components/NoteLinksSelectField.tsx";
+import Form from "$/islands/Form.tsx";
 import FormField from "$/islands/FormField.tsx";
+import RichTextField from "$/islands/RichTextField.tsx";
 import StatusMessage from "$/islands/StatusMessage.tsx";
 import { redirect } from "$/shared/redirect.ts";
 import ConfirmDialog from "$/islands/ConfirmDialog.tsx";
@@ -41,11 +43,11 @@ export default function NoteEdit({ data }: PageProps<NoteEditProps>) {
   const { note, notes } = data;
 
   return (
-    <section class="container">
+    <section class="container article">
       <BackLink href={getNoteDetailRoute(note.id)} />
       <h2 class="h1">Edit Note</h2>
       <p class="text-[--text-passive]">Submit the form to save your changes.</p>
-      <form id="edit" method="POST">
+      <Form id="edit" method="POST">
         <FormField
           label="Title"
           type="text"
@@ -53,14 +55,15 @@ export default function NoteEdit({ data }: PageProps<NoteEditProps>) {
           value={note.title}
           required
         />
-        <FormField
+        <RichTextField label="Body" name="body" value={note.body} />
+        {/* <FormField
           label="Body"
           element="textarea"
           name="body"
           value={note.body}
-        />
+        /> */}
         <NoteLinksSelectField note={note} options={notes} />
-      </form>
+      </Form>
       <footer class="submit-group">
         <form method="GET" action={getNoteDetailRoute(note.id)}>
           <button type="submit">Cancel</button>
