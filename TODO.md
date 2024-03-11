@@ -16,4 +16,4 @@
 - [ ] Create a PocketBase instance on [PocketHost](https://pockethost.io).
 - [ ] Create an account on [Deno Deploy](https://deno.com/deploy) and create a new project.
 - [ ] Setup the environment variables on Deno Deploy.
-- [ ] Deploy the app to Deno Deploy using `deployctl`.
+- [ ] Deploy the app to using a GitHub integration.

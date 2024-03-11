@@ -1,5 +1,12 @@
 # Using PocketBase, Deno, and Fresh to deploy a production ready app under an hour 🚀
 
+## Preface
+
+This project was built as part of a workshop designed for the [Night of Chances](https://nightofchances.com).
+&copy; Designed and developed by [Niza Toshpulatov](https://niza.cz), March 2024.
+
+## Introduction
+
 Landscape of web development is ever-changing. There is a new JavaScript framework seemingly every day! There are countless tutorials and guides on how to quickly deploy production-ready apps using popular frameworks and libraries.
 
 In recent years, Deno, a TypeScript-first JavaScript runtime, has gained a fair level of popularity and many frameworks and libraries have emerged around the technology. In this workshop, we will learn how to deploy a production-ready web application using:
