@@ -23,6 +23,12 @@ jobs:
         with:
           deno-version: v1.x
 
+      - name: Generate .env file
+        run: |
+          echo "POCKET_BASE_URL=${{ vars.POCKET_BASE_URL }}" >> .env
+          echo "POCKET_BASE_SEEDING_ADMIN_USER_EMAIL=${{ vars.POCKET_BASE_SEEDING_ADMIN_USER_EMAIL }}" >> .env
+          echo "POCKET_BASE_SEEDING_ADMIN_USER_PASSWORD=${{ vars.POCKET_BASE_SEEDING_ADMIN_USER_PASSWORD }}" >> .env
+
       - name: Build step
         run: "deno task build" # 📝 Update the build command(s) if necessary
 
