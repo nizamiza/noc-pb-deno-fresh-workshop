@@ -1,23 +1,24 @@
 - [NoC: PocketBase, Fresh, Deno Workshop Walkthrough](#noc-pocketbase-fresh-deno-workshop-walkthrough)
   - [1. Install Deno](#1-install-deno)
   - [2. Create a Fresh project](#2-create-a-fresh-project)
-  - [3. Update `imports` in the `deno.json`](#3-update-imports-in-the-denojson)
-  - [4. Create a PocketBase instance on PocketHost](#4-create-a-pocketbase-instance-on-pockethost)
-  - [5. Setup collections and API rules via PocketBase's admin dashboard](#5-setup-collections-and-api-rules-via-pocketbases-admin-dashboard)
-  - [6. Create a sample user in the `users` collection](#6-create-a-sample-user-in-the-users-collection)
-  - [7. Load ENV variables](#7-load-env-variables)
-  - [8. Create shared types file](#8-create-shared-types-file)
-  - [9. Create `helpers.ts` file](#9-create-helpersts-file)
-  - [10. Implement auth logic](#10-implement-auth-logic)
-  - [11. Implement a global middleware](#11-implement-a-global-middleware)
-  - [12. Create a `login` route](#12-create-a-login-route)
-  - [13. Create a `logout` route](#13-create-a-logout-route)
-  - [14. Create a `notes` route](#14-create-a-notes-route)
-  - [15. Create a note detail route (`notes/[id]/index.tsx`)](#15-create-a-note-detail-route-notesidindextsx)
-  - [16. Create a `notes/[id]/edit` route](#16-create-a-notesidedit-route)
-  - [17. Implement `delete` and `unlink` APIs](#17-implement-delete-and-unlink-apis)
-  - [18. Release to production](#18-release-to-production)
-  - [19. Done! 🎉](#19-done-)
+  - [3. Start the development server](#3-start-the-development-server)
+  - [4. Update `imports` in the `deno.json`](#4-update-imports-in-the-denojson)
+  - [5. Create a PocketBase instance on PocketHost](#5-create-a-pocketbase-instance-on-pockethost)
+  - [6. Setup collections and API rules via PocketBase's admin dashboard](#6-setup-collections-and-api-rules-via-pocketbases-admin-dashboard)
+  - [7. Create a sample user in the `users` collection](#7-create-a-sample-user-in-the-users-collection)
+  - [8. Load ENV variables](#8-load-env-variables)
+  - [9. Create shared types file](#9-create-shared-types-file)
+  - [10. Create `helpers.ts` file](#10-create-helpersts-file)
+  - [11. Implement auth logic](#11-implement-auth-logic)
+  - [12. Implement a global middleware](#12-implement-a-global-middleware)
+  - [13. Create a `login` route](#13-create-a-login-route)
+  - [14. Create a `logout` route](#14-create-a-logout-route)
+  - [15. Create a `notes` route](#15-create-a-notes-route)
+  - [16. Create a note detail route (`notes/[id]/index.tsx`)](#16-create-a-note-detail-route-notesidindextsx)
+  - [17. Create a `notes/[id]/edit` route](#17-create-a-notesidedit-route)
+  - [18. Implement `create`, `delete` and `unlink` APIs](#18-implement-create-delete-and-unlink-apis)
+  - [19. Release to production](#19-release-to-production)
+  - [20. Done! 🎉](#20-done-)
   - [To-do](#to-do)
   - [Resources](#resources)
 
@@ -39,11 +40,25 @@ irm https://deno.land/install.ps1 | iex
 
 ## 2. [Create a Fresh project](https://fresh.deno.dev/docs/getting-started/create-a-project)
 
+Run the following command to initialize a Fresh project (this will also create a project folder for you):
+
 ```sh
 deno run -A -r https://fresh.deno.dev noc-workshop
 ```
 
-## 3. Update `imports` in the `deno.json`
+When prompted for a styling library, choose [Tailwind](https://tailwindcss.com).
+
+## 3. Start the development server
+
+Navigate to the project folder and start the development server:
+
+```sh
+cd noc-workshop && deno task start
+```
+
+The development server will start on port `8000` by default: http://localhost:8000.
+
+## 4. Update `imports` in the `deno.json`
 
 1. **Add `$/` path entry mapped to `./`:** This will allow us to use absolute imports throughout the project.
 2. **Update the `std` version to `0.218.2`:** Set the std version to `0.218.2` so we can use the `http/cookie.ts` module.
@@ -57,13 +72,13 @@ deno run -A -r https://fresh.deno.dev noc-workshop
     ...
     "$/": "./",
     "$std/": "https://deno.land/std@0.218.2/",
-    "pocketbase": "npm:pocketbase@0.21.1",
+    "pocketbase": "npm:pocketbase",
     "zodenv": "https://deno.land/x/zodenv@v2.0.1/mod.ts"
   }
 }
 ```
 
-## 4. Create a PocketBase instance on [PocketHost](https://pockethost.io)
+## 5. Create a PocketBase instance on [PocketHost](https://pockethost.io)
 
 You can use a local instance of PocketBase for development and testing, but for production, you should use a hosted instance. You can self host but for this workshop, we will use PocketHost.
 
@@ -80,29 +95,32 @@ POCKET_BASE_URL="<pocket-host-instance-url>"
 POCKET_BASE_URL="http://localhost:8090"
 ```
 
-## 5. Setup collections and [API rules](https://pocketbase.io/docs/api-rules-and-filters) via PocketBase's admin dashboard
+## 6. Setup collections and [API rules](https://pocketbase.io/docs/api-rules-and-filters) via PocketBase's admin dashboard
 
 1. Navigate to the admin panel of your PocketBase instance. The link should be available on your PocketHost dashboard.
+
+> Credentials are the same as you set when creating the instance.
+
 2. Create a new collection called `notes` with the following fields:
-   - `title` - string
+   - `title` - plain text
    - `body` - rich text string
-   - `user` - relation to `users` collection
-3. Update the notes collection, add a `links` field that is a relation to `notes`.
-4. Setup the API rules for the `notes` collection:
+   - `user` - relation to `users` collection _(single)_
+3. Update the `notes` collection by adding a `links` field that is a relation to `notes` _(multiple)_.
+4. Setup the API rules for the `notes` collection (⚙️ -> API Rules):
    - **List/Search:** `@request.auth.id = user.id`
    - **View**: `@request.auth.id = user.id`
    - **Create**: `@request.auth.id != ''`
    - **Update**: `@request.auth.id = user.id`
    - **Delete**: `@request.auth.id = user.id`
 
-## 6. Create a sample user in the `users` collection
+## 7. Create a sample user in the `users` collection
 
 1. Navigate to the admin panel of your PocketBase instance.
 2. Create a new user in the `users` collection.
 
 > We will use this user to test the authentication and authorization in our application.
 
-## 7. Load ENV variables
+## 8. Load ENV variables
 
 ```ts
 // shared/env.ts
@@ -118,7 +136,7 @@ export const [config, env] = parse((e) => ({
 }));
 ```
 
-## 8. Create shared types file
+## 9. Create shared types file
 
 ```ts
 // shared/types.ts
@@ -160,7 +178,7 @@ export enum AuthCookie {
 - `User` and `Note` types will be used to type the data we receive from the PocketBase API.
 - `AuthCookie` enum will be used to set the name and options for the auth cookie.
 
-## 9. Create `helpers.ts` file
+## 10. Create `helpers.ts` file
 
 ```ts
 // shared/helpers.ts
@@ -176,7 +194,7 @@ export function redirect(path: string, headers = new Headers()) {
 
 > We will use this helper function throughout the application to redirect the user to a different page.
 
-## 10. Implement auth logic
+## 11. Implement auth logic
 
 ```ts
 // shared/auth.ts
@@ -185,12 +203,6 @@ import { FreshContext } from "$fresh/server.ts";
 import { setCookie } from "$std/http/cookie.ts";
 import { env } from "$/shared/env.ts";
 import { AuthCookie, State, User } from "$/shared/types.ts";
-
-export enum AuthCookie {
-  Name = "auth",
-  MaxAge = 60 * 60 * 24 * 30,
-  SameSite = "Strict",
-}
 
 export async function createState(headers: Headers): Promise<State> {
   const pb = new Pocketbase(env("POCKET_BASE_URL"));
@@ -210,9 +222,9 @@ export async function createState(headers: Headers): Promise<State> {
        * because the user's data might have changed since the last time the user
        * logged in.
        */
-      const { record } = await pb.collection("users").authRefresh();
+      const { record } = await pb.collection("users").authRefresh<User>();
 
-      user = record as User;
+      user = record;
       user.avatarUrl = new URL(
         `/api/files/users/${user.id}/${user.avatar}`,
         env("POCKET_BASE_URL")
@@ -257,7 +269,7 @@ export function createAuthCookieClearHeaders(): Headers {
 }
 ```
 
-## 11. Implement a global [middleware](https://fresh.deno.dev/docs/concepts/middleware)
+## 12. Implement a global [middleware](https://fresh.deno.dev/docs/concepts/middleware)
 
 In the middleware, we will check if we have a valid user session and also provide a context state to the rest of the application.
 
@@ -265,9 +277,8 @@ In the middleware, we will check if we have a valid user session and also provid
 // routes/_middleware.ts
 import { FreshContext } from "$fresh/server.ts";
 import { createState } from "$/shared/auth.ts";
-import { env } from "$/shared/env.ts";
 import { redirect } from "$/shared/helpers.ts";
-import { AuthCookie, State } from "$/shared/types.ts";
+import { State } from "$/shared/types.ts";
 
 export async function handler(req: Request, ctx: FreshContext<State>) {
   /**
@@ -299,7 +310,7 @@ export async function handler(req: Request, ctx: FreshContext<State>) {
 }
 ```
 
-## 12. Create a `login` [route](https://fresh.deno.dev/docs/getting-started/create-a-route)
+## 13. Create a `login` [route](https://fresh.deno.dev/docs/getting-started/create-a-route)
 
 ```tsx
 // routes/login.tsx
@@ -332,7 +343,7 @@ export default function Login({ data }: PageProps<LoginResult>) {
           required
         />
         <button type="submit">Login</button>
-        {data.errorMessage && <p>{data.errorMessage}</p>}
+        {data?.errorMessage && <p>{data.errorMessage}</p>}
       </form>
     </main>
   );
@@ -358,7 +369,7 @@ export const handler: Handlers<LoginResult, State> = {
 
       const headers = createAuthCookieHeaders(ctx);
 
-      return redirect("/");
+      return redirect("/", headers);
     } catch (error) {
       console.error(error);
       return ctx.render({
@@ -371,7 +382,7 @@ export const handler: Handlers<LoginResult, State> = {
 
 > You can put as much time into styling as you want. In these examples, we will focus on the functionality.
 
-## 13. Create a `logout` route
+## 14. Create a `logout` route
 
 ```ts
 // routes/logout.ts
@@ -391,7 +402,7 @@ export const handler: Handlers<never, State> = {
 };
 ```
 
-## 14. Create a `notes` route
+## 15. Create a `notes` route
 
 ```tsx
 // routes/notes/index.tsx
@@ -466,7 +477,7 @@ export const handler: Handlers<NotesData, State> = {
 
 > We will implement the `create` API later in the walkthrough.
 
-## 15. Create a note detail route (`notes/[id]/index.tsx`)
+## 16. Create a note detail route (`notes/[id]/index.tsx`)
 
 ```tsx
 // routes/notes/[id]/index.tsx
@@ -504,7 +515,7 @@ export default function NoteDetail({ data }: PageProps<NoteDetailData, State>) {
           </ul>
         )}
         <footer>
-          <form action={`notes/${note.id}/edit`}>
+          <form action={`/notes/${note.id}/edit`}>
             <button type="submit">Edit</button>
           </form>
         </footer>
@@ -532,7 +543,7 @@ export const handler: Handlers<NoteDetailData, State> = {
 };
 ```
 
-## 16. Create a `notes/[id]/edit` route
+## 17. Create a `notes/[id]/edit` route
 
 ```tsx
 import { Head } from "$fresh/runtime.ts";
@@ -619,7 +630,7 @@ export default function NoteEdit({ data }: PageProps<NoteEditData>) {
 }
 
 async function renderNotes(
-  ctx: FreshContext<NoteEditData>,
+  ctx: FreshContext<State>,
   props?: Partial<NoteEditData>
 ) {
   const note = await ctx.state.pb
@@ -673,12 +684,43 @@ export const handler: Handlers<NoteEditData, State> = {
 };
 ```
 
-## 17. Implement `delete` and `unlink` APIs
+## 18. Implement `create`, `delete` and `unlink` APIs
+
+Implement the `create` API in `routes/api/notes/create.ts`:
+
+```ts
+// routes/api/notes/create.ts
+import { Handlers } from "$fresh/server.ts";
+import { redirect } from "$/shared/redirect.ts";
+import { State } from "$/shared/types.ts";
+
+export const handler: Handlers<never, State> = {
+  POST: async (_req, ctx) => {
+    if (!ctx.state.user) {
+      return new Response(null, {
+        status: 401,
+        statusText: "Unauthorized",
+      });
+    }
+
+    const data = new FormData();
+
+    data.append("title", "New Note");
+    data.append("user", ctx.state.user.id);
+
+    const note = await ctx.state.pb.collection("notes").create(data);
+
+    return redirect(`/notes/${note.id}/edit`);
+  },
+};
+```
+
+Implement the `delete` API in `routes/api/notes/[id]/delete.ts`:
 
 ```ts
 // routes/api/notes/[id]/delete.ts
 import { Handlers } from "$fresh/server.ts";
-import { redirect } from "$/shared/redirect.ts";
+import { redirect } from "$/shared/helpers.ts";
 import { State } from "$/shared/types.ts";
 
 export const handler: Handlers<never, State> = {
@@ -691,10 +733,12 @@ export const handler: Handlers<never, State> = {
 };
 ```
 
+Implement the `unlink` API in `routes/api/notes/[id]/unlink.ts`:
+
 ```ts
 // routes/api/notes/[id]/unlink.ts
 import { Handlers } from "$fresh/server.ts";
-import { redirect } from "$/shared/redirect.ts";
+import { redirect } from "$/shared/helpers.ts";
 import { State } from "$/shared/types.ts";
 
 export const handler: Handlers<never, State> = {
@@ -710,7 +754,7 @@ export const handler: Handlers<never, State> = {
 };
 ```
 
-## 18. Release to production
+## 19. Release to production
 
 If you haven't already, initialize a git repository and connect it to a GitHub repository:
 
@@ -753,13 +797,9 @@ git push -u origin main
 
 This will trigger the GitHub Actions workflow and deploy your application to Deno Deploy.
 
-## 19. Done! 🎉
+## 20. Done! 🎉
 
 You have successfully created a full-stack application using Fresh, Deno, and PocketBase! I hope you enjoyed the workshop and learned something new.
-
-Follow [UNIIT](https://uniit.sk) on social media:
-
-- [LinkedIn](https://www.linkedin.com/company/uniit)
 
 ## To-do
 
