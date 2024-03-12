@@ -1,3 +1,4 @@
+import { Head } from "$fresh/runtime.ts";
 import BackLink from "$/components/BackLink.tsx";
 import NoteLinksSelectField from "$/components/NoteLinksSelectField.tsx";
 import Form from "$/islands/Form.tsx";
@@ -10,15 +11,15 @@ import { Expansion, getNoteById, getNoteList } from "$/shared/pb.ts";
 import { ApiRoute, getRoute, getNoteDetailRoute } from "$/shared/route.ts";
 import { Context, Handlers, NotesResponse, PageProps } from "$/shared/types.ts";
 
-type NoteEditProps = {
+type NoteEditData = {
   note: NotesResponse<Expansion["notes"]>;
   notes: NotesResponse<Expansion["notes"]>[];
   errorMessage?: string;
 };
 
 async function renderNotes(
-  ctx: Context<NoteEditProps>,
-  props?: Partial<NoteEditProps>
+  ctx: Context<NoteEditData>,
+  props?: Partial<NoteEditData>
 ) {
   const note = await getNoteById(ctx, {
     expand: "links",
@@ -39,64 +40,65 @@ async function renderNotes(
   });
 }
 
-export default function NoteEdit({ data }: PageProps<NoteEditProps>) {
+export default function NoteEdit({ data }: PageProps<NoteEditData>) {
   const { note, notes } = data;
 
   return (
-    <section class="container article">
-      <BackLink href={getNoteDetailRoute(note.id)} />
-      <h2 class="h1">Edit Note</h2>
-      <p class="text-[--text-passive]">Submit the form to save your changes.</p>
-      <Form id="edit" method="POST">
-        <FormField
-          label="Title"
-          type="text"
-          name="title"
-          value={note.title}
-          required
-        />
-        <RichTextField label="Body" name="body" value={note.body} />
-        {/* <FormField
-          label="Body"
-          element="textarea"
-          name="body"
-          value={note.body}
-        /> */}
-        <NoteLinksSelectField note={note} options={notes} />
-      </Form>
-      <footer class="submit-group">
-        <form method="GET" action={getNoteDetailRoute(note.id)}>
-          <button type="submit">Cancel</button>
-        </form>
-        {(note.expand?.links.length ?? 0) > 0 && (
+    <>
+      <Head>
+        <title>Edit Note</title>
+      </Head>
+      <section class="container article">
+        <BackLink href={getNoteDetailRoute(note.id)} />
+        <h2 class="h1">Edit Note</h2>
+        <p class="text-[--text-passive]">
+          Submit the form to save your changes.
+        </p>
+        <Form id="edit" method="POST">
+          <FormField
+            label="Title"
+            type="text"
+            name="title"
+            value={note.title}
+            required
+          />
+          <RichTextField label="Body" name="body" value={note.body} />
+          <NoteLinksSelectField note={note} options={notes} />
+        </Form>
+        <footer class="submit-group">
+          <form method="GET" action={getNoteDetailRoute(note.id)}>
+            <button type="submit">Cancel</button>
+          </form>
+          {(note.expand?.links.length ?? 0) > 0 && (
+            <ConfirmDialog
+              action={getRoute(ApiRoute.NoteUnlink, { id: note.id })}
+              title="Are you sure you want to unlink all links from this note?"
+              class="text-[--accent]"
+            >
+              Unlink all notes
+            </ConfirmDialog>
+          )}
           <ConfirmDialog
-            action={getRoute(ApiRoute.NoteUnlink, { id: note.id })}
-            title="Are you sure you want to unlink all links from this note?"
-            class="text-[--accent]"
+            action={getRoute(ApiRoute.NoteDelete, { id: note.id })}
+            title="Are you sure you want to delete this note?"
           >
-            Unlink all notes
+            Delete
           </ConfirmDialog>
+          <button form="edit" class="text-[--info]" type="submit">
+            Save
+          </button>
+        </footer>
+        {data?.errorMessage && (
+          <StatusMessage open type="error">
+            {data.errorMessage}
+          </StatusMessage>
         )}
-        <ConfirmDialog
-          action={getRoute(ApiRoute.NoteDelete, { id: note.id })}
-          title="Are you sure you want to delete this note?"
-        >
-          Delete
-        </ConfirmDialog>
-        <button form="edit" class="text-[--info]" type="submit">
-          Save
-        </button>
-      </footer>
-      {data?.errorMessage && (
-        <StatusMessage open type="error">
-          {data.errorMessage}
-        </StatusMessage>
-      )}
-    </section>
+      </section>
+    </>
   );
 }
 
-export const handler: Handlers<NoteEditProps> = {
+export const handler: Handlers<NoteEditData> = {
   GET: async (_req, ctx) => {
     return await renderNotes(ctx);
   },

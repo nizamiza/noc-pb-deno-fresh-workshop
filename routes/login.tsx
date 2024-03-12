@@ -53,7 +53,7 @@ export const handler: Handlers<LoginResult> = {
 
       return redirectToHome(headers);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return ctx.render({
         errorMessage: error.message,
       });

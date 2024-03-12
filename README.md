@@ -5,6 +5,8 @@
 This project was built as part of a workshop designed for the [Night of Chances](https://nightofchances.com).
 &copy; Designed and developed by [Niza Toshpulatov](https://niza.cz), March 2024.
 
+Read the [WALKTHROUGH.md](WALKTHROUGH.md) for a detailed guide on how to implement the app.
+
 ## Introduction
 
 Landscape of web development is ever-changing. There is a new JavaScript framework seemingly every day! There are countless tutorials and guides on how to quickly deploy production-ready apps using popular frameworks and libraries.

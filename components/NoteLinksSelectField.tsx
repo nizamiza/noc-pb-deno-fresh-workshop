@@ -48,7 +48,7 @@ function NoteLinksSelectFieldOption({
   const truncatedTitle = option.title.slice(0, selected ? 12 : 20);
 
   return (
-    <option key={option.id} value={option.id} selected={selected}>
+    <option value={option.id} selected={selected}>
       {`${prefix} ${truncatedTitle} ${suffix}...`}
     </option>
   );

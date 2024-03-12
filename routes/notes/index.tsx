@@ -4,11 +4,11 @@ import { Expansion, getNoteList } from "$/shared/pb.ts";
 import { Handlers, NotesResponse, PageProps } from "$/shared/types.ts";
 import { ApiRoute } from "$/shared/route.ts";
 
-type NotesProps = {
+type NotesData = {
   notes: NotesResponse<Expansion["notes"]>[];
 };
 
-export default function Notes({ data }: PageProps<NotesProps>) {
+export default function Notes({ data }: PageProps<NotesData>) {
   const { notes } = data;
 
   return (
@@ -53,7 +53,7 @@ export default function Notes({ data }: PageProps<NotesProps>) {
   );
 }
 
-export const handler: Handlers<NotesProps> = {
+export const handler: Handlers<NotesData> = {
   GET: async (_req, ctx) => {
     const notes = await getNoteList(ctx, {
       expand: "links",
