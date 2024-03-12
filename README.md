@@ -2,10 +2,11 @@
 
 ## Preface
 
-This project was built as part of a workshop designed for the [Night of Chances](https://nightofchances.com).
-&copy; Designed and developed by [Niza Toshpulatov](https://niza.cz), March 2024.
+This project was built for a workshop designed for the [Night of Chances](https://nightofchances.com) as part of the participation of [UNIIT, s.r.o.](https://uniit.sk) on the event.
 
 Read the [WALKTHROUGH.md](WALKTHROUGH.md) for a detailed guide on how to implement the app.
+
+> &copy; Designed and developed by [Niza Toshpulatov](https://niza.cz), March 2024.
 
 ## Introduction
 
