@@ -1,7 +1,7 @@
 import { createAppState } from "$/shared/auth.ts";
 import { redirect, redirectToHome } from "$/shared/redirect.ts";
-import { Context } from "$/shared/types.ts";
 import { Route } from "$/shared/route.ts";
+import { Context } from "$/shared/types.ts";
 
 export async function handler(req: Request, ctx: Context) {
   if (ctx.destination !== "route") {

@@ -1,12 +1,12 @@
 import { Head } from "$fresh/runtime.ts";
-import MetaInfo from "$/components/MetaInfo.tsx";
-import EditIcon from "$/components/EditIcon.tsx";
 import BackLink from "$/components/BackLink.tsx";
+import EditIcon from "$/components/EditIcon.tsx";
+import MetaInfo from "$/components/MetaInfo.tsx";
 import NoteCard from "$/components/NoteCard.tsx";
+import RichText from "$/components/RichText.tsx";
+import { getNoteById, Expansion } from "$/shared/pb.ts";
 import { getRoute, Route } from "$/shared/route.ts";
 import { Handlers, NotesResponse, PageProps } from "$/shared/types.ts";
-import { getNoteById } from "$/shared/pb.ts";
-import { Expansion } from "$/shared/pb.ts";
 
 type NoteDetailData = {
   note: NotesResponse<Expansion["notes"]>;
@@ -33,7 +33,7 @@ export default function NoteDetail({ data }: PageProps<NoteDetailData>) {
         />
         <article class="flex flex-col gap-4">
           <h2 class="h1">{note.title}</h2>
-          <div dangerouslySetInnerHTML={{ __html: note.body }}></div>
+          <RichText>{note.body}</RichText>
         </article>
         <h2 class="h3 mt-6">🔗 Linked notes</h2>
         {(note.expand?.links.length ?? 0) === 0 ? (

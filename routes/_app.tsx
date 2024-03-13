@@ -1,4 +1,4 @@
-import { type PageProps } from "$fresh/server.ts";
+import { PageProps } from "$/shared/types.ts";
 
 export default function App({ Component }: PageProps) {
   return (

@@ -1,8 +1,8 @@
 import { Head } from "$fresh/runtime.ts";
 import NoteCard from "$/components/NoteCard.tsx";
 import { Expansion, getNoteList } from "$/shared/pb.ts";
-import { Handlers, NotesResponse, PageProps } from "$/shared/types.ts";
 import { ApiRoute } from "$/shared/route.ts";
+import { Handlers, NotesResponse, PageProps } from "$/shared/types.ts";
 
 type NotesData = {
   notes: NotesResponse<Expansion["notes"]>[];

@@ -2,8 +2,8 @@ import { RouteConfig } from "$fresh/server.ts";
 import FormField from "$/islands/FormField.tsx";
 import StatusMessage from "$/islands/StatusMessage.tsx";
 import { createAuthCookieHeaders } from "$/shared/auth.ts";
-import { Handlers, PageProps } from "$/shared/types.ts";
 import { redirectToHome } from "$/shared/redirect.ts";
+import { Handlers, PageProps } from "$/shared/types.ts";
 
 export const config: RouteConfig = {
   skipInheritedLayouts: true,

@@ -1,6 +1,6 @@
 import MainContent from "$/components/MainContent.tsx";
-import { PageProps } from "$/shared/types.ts";
 import Sidebar from "$/islands/Sidebar.tsx";
+import { PageProps } from "$/shared/types.ts";
 
 export default function Layout({ Component, state }: PageProps) {
   return (

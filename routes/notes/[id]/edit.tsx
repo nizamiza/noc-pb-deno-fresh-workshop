@@ -1,13 +1,13 @@
 import { Head } from "$fresh/runtime.ts";
 import BackLink from "$/components/BackLink.tsx";
 import NoteLinksSelectField from "$/components/NoteLinksSelectField.tsx";
+import ConfirmDialog from "$/islands/ConfirmDialog.tsx";
 import Form from "$/islands/Form.tsx";
 import FormField from "$/islands/FormField.tsx";
 import RichTextField from "$/islands/RichTextField.tsx";
 import StatusMessage from "$/islands/StatusMessage.tsx";
-import { redirect } from "$/shared/redirect.ts";
-import ConfirmDialog from "$/islands/ConfirmDialog.tsx";
 import { Expansion, getNoteById, getNoteList } from "$/shared/pb.ts";
+import { redirect } from "$/shared/redirect.ts";
 import { ApiRoute, getRoute, getNoteDetailRoute } from "$/shared/route.ts";
 import { Context, Handlers, NotesResponse, PageProps } from "$/shared/types.ts";
 

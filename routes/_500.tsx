@@ -1,5 +1,5 @@
-import { PageProps, RouteConfig } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
+import { PageProps, RouteConfig } from "$fresh/server.ts";
 
 export const config: RouteConfig = {
   skipInheritedLayouts: true,

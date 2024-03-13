@@ -9,7 +9,11 @@ export type NotesProps<Expand> = {
 export default function NoteCard<Expand = unknown>({
   data,
 }: NotesProps<Expand>) {
-  const previewBody = data.body.replace(/<[^>]+>/g, "").slice(0, 200);
+  const previewBody = data.body
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&[^;]+;/g, "")
+    .slice(0, 200);
 
   const linkCount =
     data.expand &&
