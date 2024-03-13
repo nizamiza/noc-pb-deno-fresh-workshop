@@ -1,4 +1,5 @@
 import { SlideRoute } from "$/shared/route.ts";
+import { camelCaseToWords } from "$/shared/utils.ts";
 
 export default function Slides() {
   return (
@@ -9,7 +10,7 @@ export default function Slides() {
         {Object.entries(SlideRoute).map(([route, path]) => (
           <li key={route}>
             <a class="font-mono hover:underline" href={path}>
-              {route}
+              {camelCaseToWords(route)}
             </a>
           </li>
         ))}

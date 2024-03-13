@@ -10,7 +10,7 @@ export default function RepoLinkSlide({ url }: PageProps) {
     <div class="flex flex-col items-center text-center gap-6 lg:gap-12">
       <h1>Link to the repository</h1>
       <GitHubLink class="text-lg lg:text-3xl font-mono">
-        https://github.com/
+        github.com/
         <wbr />
         nizamiza/
         <wbr />
@@ -27,7 +27,8 @@ export default function RepoLinkSlide({ url }: PageProps) {
           rel="noopener"
           target="_blank"
         >
-          {slidesUrl.href}
+          {slidesUrl.host}
+          {slidesUrl.pathname}
         </a>
         .
       </p>
