@@ -82,7 +82,11 @@ export default function RichTextField({
         ))}
       </header>
       <div
-        class="accent-focus resize-y min-h-48"
+        class={cn`
+          [&_[color='#000000']]:!text-[--text]
+          [&_[style*='#000000']]:!text-[--text]
+          accent-focus resize-y min-h-48
+        `}
         ref={editorRef}
         contentEditable
         name={name}
