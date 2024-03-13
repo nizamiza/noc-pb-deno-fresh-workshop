@@ -1,3 +1,4 @@
+import { useId } from "preact/hooks";
 import { Expansion } from "$/shared/pb.ts";
 import { NotesResponse } from "$/shared/types.ts";
 
@@ -17,13 +18,17 @@ export default function NoteLinksSelectField({
   options,
   name = "links",
 }: NoteLinksSelectFieldProps) {
+  const legendId = useId();
+
   return (
     <fieldset>
-      <legend>Select notes that you want to link to this note</legend>
+      <legend id={legendId}>
+        Select notes that you want to link to this note
+      </legend>
       <p class="note">
         Tap or <kbd>Ctrl/Cmd</kbd> click to deselect a note
       </p>
-      <select name={name} multiple>
+      <select aria-labelledby={legendId} name={name} multiple>
         {options.map((option) => (
           <NoteLinksSelectFieldOption
             key={option.id}

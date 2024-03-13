@@ -26,6 +26,7 @@ import * as $ConfirmDialog from "./islands/ConfirmDialog.tsx";
 import * as $Form from "./islands/Form.tsx";
 import * as $FormField from "./islands/FormField.tsx";
 import * as $Logout from "./islands/Logout.tsx";
+import * as $NoteLinksSelectField from "./islands/NoteLinksSelectField.tsx";
 import * as $RichTextField from "./islands/RichTextField.tsx";
 import * as $Sidebar from "./islands/Sidebar.tsx";
 import * as $StatusMessage from "./islands/StatusMessage.tsx";
@@ -59,6 +60,7 @@ const manifest = {
     "./islands/Form.tsx": $Form,
     "./islands/FormField.tsx": $FormField,
     "./islands/Logout.tsx": $Logout,
+    "./islands/NoteLinksSelectField.tsx": $NoteLinksSelectField,
     "./islands/RichTextField.tsx": $RichTextField,
     "./islands/Sidebar.tsx": $Sidebar,
     "./islands/StatusMessage.tsx": $StatusMessage,

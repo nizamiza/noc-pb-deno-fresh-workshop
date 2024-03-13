@@ -32,7 +32,17 @@ export default function NoteDetail({ data }: PageProps<NoteDetailData>) {
           dateFormatOptions={{ created: { month: "long" } }}
         />
         <article class="flex flex-col gap-4">
-          <h2 class="h1">{note.title}</h2>
+          <h2 class="h1 flex flex-row flex-wrap gap-4 justify-between items-center">
+            {note.title}{" "}
+            <form
+              class="text-sm font-normal"
+              action={getRoute(Route.NoteEdit, { id: note.id })}
+            >
+              <button type="submit">
+                <EditIcon /> Edit
+              </button>
+            </form>
+          </h2>
           <RichText>{note.body}</RichText>
         </article>
         <h2 class="h3 mt-6">🔗 Linked notes</h2>
@@ -47,15 +57,7 @@ export default function NoteDetail({ data }: PageProps<NoteDetailData>) {
             ))}
           </ul>
         )}
-        <footer>
-          <form action={getRoute(Route.NoteEdit, { id: note.id })}>
-            <footer>
-              <button type="submit">
-                <EditIcon /> Edit
-              </button>
-            </footer>
-          </form>
-        </footer>
+        <footer></footer>
       </section>
     </>
   );
