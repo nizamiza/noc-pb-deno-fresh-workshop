@@ -2,7 +2,7 @@
 
 ## Preface
 
-This project was built for a workshop designed for the [Night of Chances](https://nightofchances.com) as part of the participation of [UNIIT, s.r.o.](https://uniit.sk) on the event.
+This project was built for a workshop at [Night of Chances](https://nightofchances.com) as part of the participation of [UNIIT, s.r.o.](https://uniit.sk) on the event.
 
 Read the [WALKTHROUGH.md](WALKTHROUGH.md) for a detailed guide on how to implement the app.
 
@@ -14,11 +14,11 @@ Landscape of web development is ever-changing. There is a new JavaScript framewo
 
 In recent years, Deno, a TypeScript-first JavaScript runtime, has gained a fair level of popularity and many frameworks and libraries have emerged around the technology. In this workshop, we will learn how to deploy a production-ready web application using:
 
-- **⛺️ PocketBase:** Lightweight, single-executable backend with MySQL database.
-- **🦕 Deno:** Modern, TypeScript-first JavaScript runtime that focuses on developer experience and Web APIs.
-- **🍋 Fresh:** A Deno-based full-stack framework for building fast and scalable websites.
+- **⛺️ [PocketBase](https://pocketbase.io):** Lightweight, single-executable backend with MySQL database.
+- **🦕 [Deno](https://deno.com):** Modern, TypeScript-first JavaScript runtime that focuses on developer experience and Web APIs.
+- **🍋 [Fresh](https://fresh.deno.dev):** A Deno-based full-stack framework for building fast and scalable websites.
 
-We will build a simple note-taking app and deploy it to Deno Deploy, a serverless platform for JavaScript applications.
+We will build a simple note-taking app and deploy it to [Deno Deploy](https://deno.com/deploy), a serverless platform for JavaScript applications. We will use [PocketHost](https://pockethost.io) to host our PocketBase instance.
 
 ## Outline
 
@@ -34,7 +34,7 @@ We will build a simple note-taking app and deploy it to Deno Deploy, a serverles
   - Basics of PocketBase’s API rules & auth providers.
   - Overview of Fresh’s server-side rendering and interactive islands.
   - Resolving any technical issues.
-- **🚀 Deployment:** Deploying the app to production
+- **🚀 Deployment:** Deploying the app to production.
   - Releasing the app to Deno Deploy.
   - Monitoring the release & resolving any technical issues.
 - **💬 Wrap-up:** Q&A and discussions.
@@ -50,7 +50,7 @@ Deno is a modern JavaScript/TypeScript runtime that is used to run the Fresh fra
 curl -fsSL https://deno.land/install.sh | sh
 ```
 
-If you are using Windows, you can use the following command:
+If you are using Windows, you can use this command instead:
 
 ```sh
 irm https://deno.land/install.ps1 | iex
@@ -66,7 +66,11 @@ Extract the archive, and move the binary into the root of the repository. For ex
 mv ~/Downloads/pocketbase_0.20.7_darwin_arm64/pocketbase ./
 ```
 
-## Getting Started
+> Follow the [walkthrough](WALKTHROUGH.md) if you're participating in the workshop. We will use [PocketHost](https://pockethost.io) to connect to a PocketBase instance.
+
+## Getting started
+
+> This section is intended for this particular implementation of the app. If you're participating in the workshop, follow the [walkthrough](WALKTHROUGH.md) instead.
 
 Create an `.env` file according to the `.env.example` at the root of the repository:
 
@@ -76,15 +80,11 @@ cp .env.example .env
 
 Adjust the environment variables according to your setup.
 
-Then, install the dependencies:
-
-````sh
-
 Start the PocketBase server:
 
 ```sh
 deno task db:start
-````
+```
 
 Then, you can start the application server:
 
@@ -106,13 +106,13 @@ deno task db:seed
 
 > Make sure to have the `POCKET_BASE_SEEDING_ADMIN_USER_` prefixed environmental variables setup in your `.env` file and start the PocketBase server before running the seed command.
 
-## Editor Recommendations
+## Editor recommendations
 
 Deno has a great ecosystem of extensions for popular editors. You can learn more about them in the [official documentation](https://docs.deno.com/runtime/manual/getting_started/setup_your_environment#using-an-editoride).
 
 ## Deployment
 
-You can deploy the app to Deno Deploy using the following command. Follow the instructions on [Fresh's official documentation](https://fresh.deno.dev/docs/getting-started/deploy-to-production) to learn more about the process.
+You can deploy the app to [Deno Deploy](https://deno.com/deploy). Follow the instructions on [Fresh's official documentation](https://fresh.deno.dev/docs/getting-started/deploy-to-production) to learn more about the process.
 
 To host a PocketBase instance, you can use [PocketHost](https://pockethost.io) service. Once you create an instance, make sure to add its URL to [environmental variables on Deno Deploy](https://docs.deno.com/deploy/manual/environment-variables).
 
