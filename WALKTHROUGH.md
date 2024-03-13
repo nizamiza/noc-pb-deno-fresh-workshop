@@ -1019,6 +1019,8 @@ If you have any questions or feedback, you can contact [UNIIT](https://uniit.sk/
 Cheers,<br>
 Niza ✌️
 
+P.S. Thanks to [Štefan Mašán](https://github.com/tievens) for the help with the workshop and the review of the content.
+
 ## To-do
 
 If you want to continue working on the application, here are some ideas for improvements:
