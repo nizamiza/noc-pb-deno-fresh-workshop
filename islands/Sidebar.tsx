@@ -1,11 +1,11 @@
 import { computed, signal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
-import Logout from "$/islands/Logout.tsx";
+import Footer from "$/components/Footer.tsx";
 import UserCard from "$/components/UserCard.tsx";
-import { cn } from "$/shared/utils.ts";
+import Logout from "$/islands/Logout.tsx";
 import { AppState } from "$/shared/types.ts";
-import { GitHubIcon } from "$/components/GitHubIcon.tsx";
+import { cn } from "$/shared/utils.ts";
 
 export type SidebarProps = {
   state: AppState;
@@ -20,6 +20,7 @@ const tabIndex = computed(() => {
 const NAV_LINKS = [
   { href: "/", label: "Home", emoji: "🏡" },
   { href: "/notes", label: "Notes", emoji: "📔" },
+  { href: "/slides", label: "Slides", emoji: "📽️" },
 ];
 
 export default function Sidebar({ state }: SidebarProps) {
@@ -114,45 +115,7 @@ export default function Sidebar({ state }: SidebarProps) {
       </nav>
       <Logout class="mt-auto" tabIndex={tabIndex} />
       {state.user && <UserCard data={state.user} />}
-      <footer class="flex flex-col gap-3 text-xs text-[--text-passive]">
-        <p>
-          This project was built as part of a workshop designed for the{" "}
-          <a
-            class="underline"
-            tabIndex={tabIndex}
-            href="https://nightofchances.com"
-            rel="noopener"
-            target="_blank"
-          >
-            Night of Chances
-          </a>
-          .
-        </p>
-        <p>
-          &copy; Designed and developed by{" "}
-          <a
-            class="underline"
-            tabIndex={tabIndex}
-            href="https://niza.cz"
-            rel="noopener"
-            target="_blank"
-          >
-            Niza Toshpulatov
-          </a>
-          , March 2024.
-        </p>
-        <a
-          aria-label="GitHub repository"
-          class="inline-flex gap-2 underline items-center self-center"
-          href="https://github.com/nizamiza/noc-pb-deno-fresh-workshop"
-          tabIndex={tabIndex}
-          rel="noopener"
-          target="_blank"
-          title="You can find the source code on GitHub."
-        >
-          <GitHubIcon />
-        </a>
-      </footer>
+      <Footer tabIndex={tabIndex} />
     </aside>
   );
 }

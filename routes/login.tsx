@@ -1,4 +1,5 @@
 import { RouteConfig } from "$fresh/server.ts";
+import Footer from "$/components/Footer.tsx";
 import FormField from "$/islands/FormField.tsx";
 import StatusMessage from "$/islands/StatusMessage.tsx";
 import { createAuthCookieHeaders } from "$/shared/auth.ts";
@@ -16,7 +17,9 @@ type LoginResult = {
 export default function Login({ data }: PageProps<LoginResult>) {
   return (
     <main class="auth">
-      <h1>Log in</h1>
+      <span class="giga-emoji">📋</span>
+      <h1 class="h6 text-[--text-passive]">Welcome to Night of Notes!</h1>
+      <h2 class="h1 mt-6">Log in</h2>
       <form method="POST">
         <FormField name="identity" label="Email or username" required />
         <FormField name="password" label="Password" type="password" required />
@@ -27,6 +30,22 @@ export default function Login({ data }: PageProps<LoginResult>) {
           {data.errorMessage}
         </StatusMessage>
       )}
+      <a href="/slides">
+        📽️ <span class="underline">Go to slides</span>
+      </a>
+      <section
+        aria-label="Test credentials info"
+        class="note flex flex-col gap-2 bg-[--surface] p-4 rounded-lg mt-6"
+      >
+        🔐 Test credentials:
+        <address class="inline-grid gap-2 grid-cols-2 not-italic justify-items-start">
+          <strong class="justify-self-end">Username:</strong>
+          <code>noc</code>
+          <strong class="justify-self-end">Password:</strong>
+          <code>TestPass123</code>
+        </address>
+      </section>
+      <Footer />
     </main>
   );
 }

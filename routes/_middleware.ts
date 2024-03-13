@@ -4,7 +4,10 @@ import { Route } from "$/shared/route.ts";
 import { Context } from "$/shared/types.ts";
 
 export async function handler(req: Request, ctx: Context) {
-  if (ctx.destination !== "route") {
+  if (
+    ctx.destination !== "route" ||
+    ctx.url.pathname.startsWith(Route.Slides)
+  ) {
     return ctx.next();
   }
 

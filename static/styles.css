@@ -33,6 +33,15 @@
     @apply text-base font-semibold;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-balance;
+  }
+
   hr {
     @apply border border-t border-solid w-full;
     border-color: color-mix(in srgb, currentColor, transparent 85%);
@@ -147,6 +156,10 @@
   }
 }
 
+[disabled] {
+  @apply pointer-events-none text-[--text-passive];
+}
+
 button {
   @apply py-[0.5em] px-[1.5em] rounded-md backdrop-blur-md;
   @apply accent-focus bg-[--surface] transition-colors duration-100;
@@ -184,6 +197,13 @@ body {
       @apply overflow-hidden;
     }
   }
+}
+
+a {
+  --underline-offset: 0.25em;
+
+  text-underline-offset: var(--underline-offset);
+  text-decoration-thickness: max(1px, calc(var(--underline-offset) * 0.25));
 }
 
 a:has(button) {

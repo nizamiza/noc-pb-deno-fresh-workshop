@@ -1,4 +1,4 @@
-import { JSX } from "preact/jsx-runtime";
+import { JSX } from "preact";
 import { cn } from "$/shared/utils.ts";
 
 export default function MainContent({

@@ -1,6 +1,6 @@
-import { NotesResponse } from "$/shared/types.ts";
 import MetaInfo from "$/components/MetaInfo.tsx";
 import { getNoteDetailRoute } from "$/shared/route.ts";
+import { NotesResponse } from "$/shared/types.ts";
 
 export type NotesProps<Expand> = {
   data: NotesResponse<Expand>;

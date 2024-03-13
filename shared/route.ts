@@ -2,6 +2,7 @@ export enum Route {
   Home = "/",
   Login = "/login",
   Logout = "/logout",
+  Slides = "/slides",
   Notes = "/notes",
   NoteDetail = "/notes/:id",
   NoteEdit = "/notes/:id/edit",
@@ -12,6 +13,13 @@ export enum ApiRoute {
   NoteCreate = "/api/notes/create",
   NoteDelete = "/api/notes/:id/delete",
   NoteUnlink = "/api/notes/:id/unlink",
+}
+
+export enum SlideRoute {
+  Cover = "/slides/cover",
+  Intro = "/slides/intro",
+  Outline = "/slides/outline",
+  RepoLink = "/slides/repo_link",
 }
 
 export function getRoute(

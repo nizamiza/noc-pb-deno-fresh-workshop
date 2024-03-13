@@ -16,6 +16,12 @@ import * as $logout from "./routes/logout.tsx";
 import * as $notes_id_edit from "./routes/notes/[id]/edit.tsx";
 import * as $notes_id_index from "./routes/notes/[id]/index.tsx";
 import * as $notes_index from "./routes/notes/index.tsx";
+import * as $slides_layout from "./routes/slides/_layout.tsx";
+import * as $slides_cover from "./routes/slides/cover.tsx";
+import * as $slides_index from "./routes/slides/index.tsx";
+import * as $slides_intro from "./routes/slides/intro.tsx";
+import * as $slides_outline from "./routes/slides/outline.tsx";
+import * as $slides_repo_link from "./routes/slides/repo_link.tsx";
 import * as $ConfirmDialog from "./islands/ConfirmDialog.tsx";
 import * as $Form from "./islands/Form.tsx";
 import * as $FormField from "./islands/FormField.tsx";
@@ -41,6 +47,12 @@ const manifest = {
     "./routes/notes/[id]/edit.tsx": $notes_id_edit,
     "./routes/notes/[id]/index.tsx": $notes_id_index,
     "./routes/notes/index.tsx": $notes_index,
+    "./routes/slides/_layout.tsx": $slides_layout,
+    "./routes/slides/cover.tsx": $slides_cover,
+    "./routes/slides/index.tsx": $slides_index,
+    "./routes/slides/intro.tsx": $slides_intro,
+    "./routes/slides/outline.tsx": $slides_outline,
+    "./routes/slides/repo_link.tsx": $slides_repo_link,
   },
   islands: {
     "./islands/ConfirmDialog.tsx": $ConfirmDialog,

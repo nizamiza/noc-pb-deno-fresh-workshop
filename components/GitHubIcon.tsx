@@ -1,6 +1,6 @@
 import { JSX } from "preact";
 
-export function GitHubIcon(props: JSX.SVGAttributes<SVGSVGElement>) {
+export default function GitHubIcon(props: JSX.SVGAttributes<SVGSVGElement>) {
   return (
     <svg
       aria-label="GitHub"

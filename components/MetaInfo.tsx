@@ -1,6 +1,5 @@
 import { JSX } from "preact";
-import { formatDateTime } from "$/shared/date_time.ts";
-import { cn } from "$/shared/utils.ts";
+import { cn, formatDateTime } from "$/shared/utils.ts";
 
 type DateFormatOptions = Parameters<typeof formatDateTime>[1];
 
